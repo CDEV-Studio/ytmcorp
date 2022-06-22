@@ -1,0 +1,131 @@
+{% include header  %}
+
+<div class="content-column no-columns container">
+
+	<div class="content-top"></div>
+
+	<div class="central-column">
+<!--
+		<div class="back">
+			<p>Назад</p>
+			<div class="back__balance balance-card">
+				<div>
+					<span>225 KZN</span>
+					<p>текущий баланс</p>
+				</div>
+				<div class="balance-card__plus"></div>
+			</div>
+		</div>
+-->
+		<div class="calculation-history small-box">
+			<div class="main-head">
+				<div class="burger-main"></div>
+				<h1 class="title">История расчётов</h1>
+			</div>
+
+			<div class="calculation-history__wrapper">
+
+				<div class="create-calculation">
+					<div class="button-active">Создать новый расчёт</div>
+					<div class="notification-wrapper">
+						<div class="notification-subwrapper">
+							<div class="notification">
+								<p>Онлайн-калькулятор производит расчёт по следующим направлениям колеи 1520
+									                                                (страны
+									                                                СНГ и Прибалтики):</p>
+								<ol>
+									<li>Импорт в Казахстан</li>
+									<li>
+										Импорт из Казахстана</li>
+									<li>Транзит через Казахстан</li>
+									<li>Перевозки по Казахстану</li>
+								</ol>
+								<div class="close"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="calculation-history__filter">
+					<div class="filter__open">Фильтры поиска</div>
+					<div class="filter__wrapper">
+						<div class="close"></div>
+
+						<div class="input-name">Станция погрузки</div>
+						<div class="my-select" id="station-in">
+							<div>Станция погрузки</div>
+							<div>
+								<div data="">Станция погрузки</div>
+								<div data="Казахстан">A</div>
+								<div data="Беларусь">Б</div>
+								<div data="Узбекистан">В</div>
+								<div data="Россия">Г</div>
+							</div>
+							<input type="hidden" value="">
+						</div>
+
+						<div class="input-name">Станция выгрузки</div>
+						<div class="my-select" id="station-out">
+							<div>Станция выгрузки</div>
+							<div>
+								<div data="">Станция выгрузки</div>
+								<div data="Казахстан">A</div>
+								<div data="Беларусь">Б</div>
+								<div data="Узбекистан">В</div>
+								<div data="Россия">Г</div>
+							</div>
+							<input type="hidden" value="">
+						</div>
+
+						<div class="input-name">Вид вагона</div>
+						<div class="my-select" id="wagon-type">
+							<div>Вид вагона</div>
+							<div>
+								<div data="">Вид вагона</div>
+								<div data="Казахстан">A</div>
+								<div data="Беларусь">Б</div>
+								<div data="Узбекистан">В</div>
+								<div data="Россия">Г</div>
+							</div>
+							<input type="hidden" value="">
+						</div>
+
+
+					</div>
+				</div>
+
+				<div class="calculation-history__items">
+					<div class="calculation-history__head">
+						<span>№ расчёта</span>
+						<span>Маршрут</span>
+					</div>
+
+                    {% for calculation in calculations %}
+					<div class="calculation-history__item">
+						<div class="calculation-history_number">
+							<span>№ расчёта</span>
+							<p>{{ calculation.calculation_id }}</p>
+						</div>
+						<div class="calculation-history_route">
+							<span>Маршрут</span>
+							<p>{{ calculation.loading_station_name }} — {{ calculation.unloading_station_name }}</p>
+						</div>
+						<div class="button-link">
+							<a href="/calculation/result_{{ calculation.calculation_id }}">Подробнее</a>
+						</div>
+					</div>
+                    {% endfor %}
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="content-bottom"></div>
+</div>
+
+
+{% include footer  %}

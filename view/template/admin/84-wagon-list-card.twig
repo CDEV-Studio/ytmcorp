@@ -1,0 +1,206 @@
+{% include header  %}
+
+<div class="container">
+
+	<div class="back">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="main-head">
+			<div class="burger-main"></div>
+			<h1 class="title-red">Список вагонов</h1>
+		</div>
+
+
+ {% for wagon in railway_carriage %} 		
+
+		<div class="wagon-card" id="wagon-card-{{ wagon.railway_carriage_id  }}">
+			<div class="wagon-card__item">
+				<div class="wagon-card__open"></div>
+				<div class="wagon-card__name">
+					<div class="placeholder-absolut">Наименование</div>
+					<input type="text" value="{{ wagon.railway_carriage_type }}" disabled>
+				</div>
+				<div class="edit-wrapper">
+					<div class="edit-wagon-card input-edit"></div>
+					<div class="dell-wagon-card input-dell"></div>
+				</div>
+				<div class="wagon-card__name_save button-active">
+					<p>Сохранить изменения</p>
+				</div>
+			</div>
+
+			<div class="wagon-card__info-wrapper">
+
+				<div class="wagon-card__info">
+					<div class="wagon-card__description">
+						<p class="cargo__card2_detail">Характеристики вагона:</p>
+						<div class="wagon-card__item" id="68-122">
+							<div class="wagon-card__fill">
+								<div class="input">
+									<div class="input-name">Грузоподъёмность (т)</div>
+									<input type="text" value="{{ wagon.lifting_capacity }}">
+								</div>
+								<div class="input">
+									<div class="input-name">Кубатура (м3)</div>
+									<input type="text" value="{{ wagon.cubic_capacity }}">
+								</div>
+								<div class="save-changes-fill button-active">
+									<p>Сохранить изменения</p>
+								</div>
+							</div>
+							<div class="wagon-card__data input"><input type="text" value="{{ wagon.lifting_capacity }}т / {{ wagon.cubic_capacity }}м3" disabled>
+							</div>
+							<div class="edit-wrapper">
+								<div class="edit-wagon-description input-edit"></div>
+								<div class="dell-wagon-description input-dell"></div>
+							</div>
+						</div>
+						<div class="create-parameter button-active">
+							<p>Создать</p>
+						</div>
+					</div>
+					<div class="wagon-card__requirement">
+						<p class="cargo__card2_detail">Требования к вагону:</p>
+						<div class="wagon-card__item" id="906">
+							<div class="wagon-card__fill">
+								<div class="input">
+									<input type="text" value="{{ wagon.requirements }}">
+								</div>
+								<div class="save-changes-fill button-active">
+									<p>Сохранить изменения</p>
+								</div>
+							</div>
+							<div class="wagon-card__data input"><input type="text" value="С люками" disabled>
+							</div>
+							<div class="edit-wrapper">
+								<div class="edit-wagon-description input-edit"></div>
+								<div class="dell-wagon-description input-dell"></div>
+							</div>
+						</div>
+						<div class="create-parameter button-active">
+							<p>Создать</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+		</div>
+
+ {% endfor %}
+
+
+
+		<div class="create-wagon button-active" onClick="location='/admin/create-wagon';">
+			<p>Создать</p>
+		</div>
+
+	</div>
+
+</div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.wagon-card__open').on('click', function () {
+                $(this).toggleClass('active');
+                $($($(this).parent()).parent()).toggleClass('active');
+                $($($(this).parent()).next('.wagon-card__info-wrapper')).slideToggle(400).css('display', 'grid');
+                $($($(this).next('div')).next('.edit-wrapper')).toggleClass('active');
+            });
+
+            $('.edit-wagon-card').on('click', function () {
+                $($($($(this).parent()).parent()).parent()).addClass('active');
+                $($($($(this).parent()).parent()).next('.wagon-card__info-wrapper')).css('display', 'grid');
+                $($($($(this).parent()).prev('div')).prev('div')).css('visibility', 'hidden');
+                $($($(this).parent()).prev('div')).removeClass('wagon-card__name').addClass('input');
+                $($($($(this).parent()).prev('div')).children('input')).removeAttr('disabled').focus();
+                $($($($(this).parent()).prev('div')).children('.placeholder-absolut')).css('display', 'block');
+                $($(this).parent()).css('display', 'none');
+                $($(this).parent()).next('div').css('display', 'flex');
+
+                $('.wagon-card__name_save').on('click', function () {
+                    $($($(this).parent()).children('.wagon-card__open')).css('visibility', 'visible');
+                    $($($($(this).parent()).children('.input')).children('.placeholder-absolut')).css('display', 'none');
+                    $($($(this).parent()).children('.input')).removeClass('input').addClass('wagon-card__name');
+                    $($($($(this).parent()).children('.input')).children('input')).prop("disabled", true);
+                    $($(this).prev('div')).css('display', 'flex');
+                    $(this).css('display', 'none');
+                });
+            });
+
+            $('.dell-wagon-card').on('click', function () {
+
+                var dellWagonCardId = $($($($(this).parent()).parent()).parent()).attr('id');
+                var html = '<div class="choose-modal-wrapper">';
+                html += '<p>Вы хотите удалить из списка <br> вид «' + $($($($(this).parent()).prev('div')).children('input')).val() + '»?</p>';
+                html += '<div class="choose-modal"><div class="choose-modal-dell">Удалить</div><div class="choose-modal-cancel">Отмена</div></div></div>';
+                modalWindow(html);
+
+                $('.choose-modal-cancel').on('click', function () {
+                    modalWrapper = false;
+                    $('.modal__wrapper').remove();
+                });
+
+                $('.choose-modal-dell').on('click', function () {
+                    $('#' + dellWagonCardId).remove();
+                    modalWrapper = false;
+                    $('.modal__wrapper').remove();
+                });
+            });
+
+            $('.dell-wagon-description').on('click', function () {
+
+                var dellWagonDescriptiondId = $($($(this).parent()).parent()).attr('id');
+                var html = '<div class="choose-modal-wrapper">';
+                html += '<p>Вы хотите удалить из списка ' + $($($($($($($($($(this).parent()).parent()).parent()).parent()).parent()).prev('div')).children('.wagon-card__name')).children('input')).val() + ' характеристики «' + $($($($(this).parent()).prev('div')).children('input')).val() + '»?</p>';
+                html += '<div class="choose-modal"><div class="choose-modal-dell">Удалить</div><div class="choose-modal-cancel">Отмена</div></div></div>';
+                modalWindow(html);
+
+                $('.choose-modal-cancel').on('click', function () {
+                    modalWrapper = false;
+                    $('.modal__wrapper').remove();
+                });
+
+                $('.choose-modal-dell').on('click', function () {
+                    $('#' + dellWagonDescriptiondId).remove();
+                    modalWrapper = false;
+                    $('.modal__wrapper').remove();
+                });
+            });
+
+            $('.edit-wagon-description').on('click', function () {
+                $($(this).parent()).css('display', 'none');
+                $($($(this).parent()).prev('div')).css('display', 'none');
+                $($($($(this).parent()).prev('div')).prev('div')).css('display', 'block');
+                $($($($(this).parent()).parent()).next('.create-parameter')).css('display', 'none');
+
+                $('.save-changes-fill').on('click', function () {
+                    $($(this).parent()).css('display', 'none');
+                    $($($(this).parent()).next('div')).css('display', 'block');
+                    $($($($(this).parent()).next('div')).next('div')).css('display', 'flex');
+                    $($($($(this).parent()).parent()).next('.create-parameter')).css('display', 'inline-flex');
+                });
+            });
+
+            $('.create-parameter').on('click', function () {
+                $(this).css('display', 'none');
+                $($($(this).prev('div')).children('.wagon-card__data')).css('display', 'none');
+                $($($(this).prev('div')).children('.edit-wrapper')).css('display', 'none');
+                $($($(this).prev('div')).children('.wagon-card__fill')).css('display', 'block');
+
+                $('.save-changes-fill').on('click', function () {
+                    $($(this).parent()).css('display', 'none');
+                    $($($(this).parent()).next('div')).css('display', 'block');
+                    $($($($(this).parent()).next('div')).next('div')).css('display', 'flex');
+                    $($($($(this).parent()).parent()).next('.create-parameter')).css('display', 'inline-flex');
+                });
+
+            });
+
+        });
+    </script>
+{% include footer  %}

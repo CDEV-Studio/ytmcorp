@@ -1,0 +1,72 @@
+{% include header  %}
+
+<div class="content-column no-columns container">
+
+	<div class="content-top"></div>
+
+	<div class="central-column">
+		<div class="registration box">
+			<h1 class="title">Регистрация</h1>
+			<p class="registration__sms subtitle-text">На указанный вами номер телефона отправлено
+								                            смс-сообщение с кодом. Для подтверждения регистрации введите код:</p>
+
+			<div class="registration-code__container">
+
+				<div class="registration-code__input">
+					<div class="input">
+						<input id="code" type="text">
+					</div>
+				</div>
+
+				<div class="proceed__button">
+					<div id="send_register_form" class="button-notactive">Подтвердить</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="content-bottom"></div>
+</div>
+<script>
+var send = false;
+$(document).ready(function () {
+  $('#code').focusout(function(){
+
+     var code =  $(this).val(); 
+
+     if( code.length > 0 ) {
+        $('#send_register_form').removeClass('button-notactive').addClass('button-active');
+        send = true;
+     } else {
+        $('#send_register_form').removeClass('button-active').addClass('button-notactive');
+        send = false;
+     }
+  });
+});
+$('#send_register_form').on('click', function(){
+  $('.input_error').remove();
+  $('input').removeClass('error');
+  if(send) {
+    $.post(
+       "/register",
+       {
+         step: 2,
+         code: $('#code').val(),
+       },
+       function(response){
+            if(response.data.error) {
+              $(response.data.message[0]).after('<div class="input_error">' + response.data.message[1] + '</div>').addClass('error');
+           }
+           if(response.data.redirect) {
+             location = response.data.redirect;
+           } 
+       }
+    );
+  } else {
+    $('#code').after('<div class="input_error">Укажите код из СМС-сообщения!</div>').addClass('error');
+  }
+});
+</script>
+{% include footer  %}

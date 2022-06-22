@@ -1,0 +1,461 @@
+{% include header  %}
+<div class="user-info container">
+
+	<div class="back ">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="user-tabs">
+			<div class="user-tabs__tab active">
+				<p>Информация
+					<br>
+					о пользователе</p>
+			</div>
+			<div class="user-tabs__tab">
+				<p>Работа
+					<br>
+					с платформой</p>
+			</div>
+			<div class="user-tabs__tab">
+				<p>Работа
+					<br>
+					с пользователем</p>
+			</div>
+			<div class="user-tabs__tab">
+				<p>Рейтинг</p>
+			</div>
+		</div>
+
+		<div class="user-card white-background">
+			<div class="cargo-owner__name">
+				<p>{{ cargo_owner.name }}</p>
+				<p>
+					<span>ID:</span>{{ cargo_owner.owner_id }}</p>
+				<p>
+					<span>Зарегистрирован:</span>{{ cargo_owner.registration_date }}</p>
+				<p>
+					{% if cargo_owner.subscribe %}<span>Подписка:</span>{% endif %}</p>
+				<p>
+					{% if cargo_owner.subscribe %}<span>Срок действия подписки:</span>{% endif %}</p>
+				<div class="button-active">
+					<p>Изменить подписку</p>
+				</div>
+			</div>
+			<div class="cargo-owner__info">
+				<p>{% if cargo_owner.expeditor %}Экспедитор{% endif %}</p>
+				<p>
+					{% if cargo_owner.verification_request_date %}<span>Верифицирован:</span>{{  cargo_owner.verification_request_date }}{% endif %}
+					
+					</p>
+
+				<p class="user-card__rating">
+				   {% if cargo_owner.rating %}
+					<span>Рейтинг:</span>
+					<span>4,2</span>
+					<span>120 отзывов</span>
+					{% endif %}
+				</p>
+				<p>
+					{% if cargo_owner.balance %}
+					<span>Текущий баланс:</span>
+					<span>2500 KZT</span>
+					{% endif %}
+				</p>
+				<div class="button-active">
+					<p>Внести оплату</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="user-info-tabs">
+			<div class="user-info-tabs__tab">Данные компании</div>
+			<div class="user-info__wrapper">
+				<div class="user-info__company blue-wrapper">
+					<div class="close"></div>
+					<div class="company-data-wrapper">
+						<div class="company-data__item">
+							<p class="company-data__field-name">Полное наименование:</p>
+							<div class="input"><input type="text" value="{{ cargo_owner.name }}"></div>
+						</div>
+						<div class="company-data-wrapper-grid">
+							<div class="company-data__item">
+								<p class="company-data__field-name">БИН/ИНН:</p>
+								<div class="input"><input type="text" value="{{ cargo_owner.bin_inn }}"></div>
+							</div>
+							<div class="company-data__item">
+								<p class="company-data__field-name">Страна резидентства:</p>
+								<div class="my-select" id="country-sorting">
+									
+									<div data="{{ cargo_owner.country_id }}">{{ cargo_owner.country_name }}</div>
+                                      <div>
+								        {% for country in countries %}
+									      <div data="{{ country.country_id }}">{{ country.name }}</div>
+							        	{% endfor %}
+                                      </div>
+									<input type="hidden" value="{{ cargo_owner.country_id }}">
+								</div>
+							</div>
+							<div class="company-data__item">
+								<p class="company-data__field-name">Телефон:</p>
+								<div class="input"><input type="text" id="cargo_owner_phone" value="{{ cargo_owner.phone }}"></div>
+							</div>
+							<div class="company-data__item">
+								<p class="company-data__field-name">Сайт:</p>
+								<div class="input"><input type="text" value="{{ cargo_owner.site }}"></div>
+							</div>
+						</div>
+						<div class="company-data__item">
+							<p class="company-data__field-name">Юридический адрес:</p>
+							<div class="input"><input type="text" value="{{ cargo_owner.legal_address }}">
+							</div>
+						</div>
+						<div class="company-data__item">
+							<p class="company-data__field-name">Адрес для корреспонденции:</p>
+							<div class="input"><input type="text" value="{{ cargo_owner.mailing_address }}">
+							</div>
+						</div>
+					</div>
+					<div class="company-data_docs">
+						{% if cargo_owner.registration_certificate %}<a href="{{ cargo_owner.registration_certificate }}">Свидетельство о регистрации</a>{% endif %}
+						{% if cargo_owner.agreement %}<a href="{{ cargo_owner.agreement }}">Согласие на демонстрацию доступа</a>{% endif %}
+						{% if cargo_owner.identification %}<a href="{{ cargo_owner.identification }}">Удостоверение личночти</a>{% endif %}
+					</div>
+					<div class="button-active save-company-data">
+						<p>Сохранить изменения</p>
+					</div>
+					<p class="save-company-data__text">Изменения успешно сохранены.</p>
+					<div class="button-active legal-check-button">
+						<p>Внести информацию о юридической проверке компании и загрузить файл</p>
+					</div>
+					<div class="legal-check__wrapper">
+						<div class="company-data__item">
+							<p class="company-data__field-name">Информация предоставлена партнёром:</p>
+							<div class="input"><input type="text" value=""></div>
+						</div>
+						<div class="legal-check_grid1">
+							<div class="company-data__item">
+								<p class="company-data__field-name">Наименование:</p>
+								<div class="input"><input type="text" value=""></div>
+							</div>
+							<div class="company-data__item">
+								<p class="company-data__field-name">УПН:</p>
+								<div class="input"><input type="text" value=""></div>
+							</div>
+						</div>
+						<div class="legal-check__grid2">
+							<div class="company-data__item">
+								<p class="company-data__field-name">МНС:</p>
+								<div class="input"><input type="text" value=""></div>
+							</div>
+							<div class="company-data__item">
+								<p class="company-data__field-name">Регистрация МНС:</p>
+								<div class="input"><input type="text" value=""></div>
+							</div>
+							<div class="company-data__item">
+								<p class="company-data__field-name">ЕГР:</p>
+								<div class="input"><input type="text" value=""></div>
+							</div>
+							<div class="company-data__item">
+								<p class="company-data__field-name">Регистрация ЕГР:</p>
+								<div class="input"><input type="text" value=""></div>
+							</div>
+						</div>
+						<div class="button-link">
+							<a href="#">Загрузить Полный отчёт о контрагенте</a>
+						</div>
+					</div>
+					<div class="button-active verify-button">
+						<p>Подтвердить верификацию</p>
+					</div>
+					<p class="verify-button__text">Верификация подтверждена</p>
+				</div>
+				<div class="user-info__border"></div>
+			</div>
+			<div class="user-info-tabs__tab">Контактная информация</div>
+			<div class="user-info__wrapper">
+				<div class="user-info__contacts blue-wrapper">
+					<div class="close"></div>
+
+					<div class="contact__item">
+						<p class="contact__item__field-name">Ф.И.О. регистрирующего лица:</p>
+						<div class="input"><input type="text" value="{{ cargo_owner.registrant_name }}" disabled></div>
+					</div>
+					<div class="contact__item">
+						<p class="contact__item__field-name">Телефон:</p>
+						<div class="input"><input type="text" value="{{ cargo_owner.registrant_phone }}" disabled></div>
+					</div>
+					<div class="contact__item">
+						<p class="contact__item__field-name">Telegram:</p>
+						<div class="input"><input type="text" value="{{ cargo_owner.registrant_telegram }}" disabled></div>
+						<p>Введите номер вашего Telegram для того, чтобы своевременно получать уведомления о
+							                                        новых предложениях к вашим грузам, а также удобно ими управлять.
+						</p>
+					</div>
+					<div class="contact__item">
+						<p class="contact__item__field-name">WhatsApp:</p>
+						<div class="input"><input type="text" value="{{ cargo_owner.registrant_whatsapp }}" disabled></div>
+						<div><input type="checkbox" class="checkbox-styled" name="contact-tel" id="contact-tel"><label for="contact-tel">Соответствует введённому ранее
+							                                            телефонному номеру</label>
+						</div>
+					</div>
+					<div class="contact__item">
+						<p class="contact__item__field-name">E-mail:</p>
+						<div class="input"><input type="text" value="{{ cargo_owner.registrant_email }}" disabled>
+						</div>
+					</div>
+				</div>
+				<div class="user-info__border"></div>
+			</div>
+			<div class="user-info-tabs__tab">Подписка</div>
+			<div class="user-info__wrapper">
+				<div class="user-info__subscribe blue-wrapper">
+					<div class="close"></div>
+					<div class="subscribe__item">
+						<p class="subscribe__item__field-name">Номер договора:</p>
+						<div class="input"><input type="text" value="№ 285/125" disabled></div>
+					</div>
+					<div class="subscribe__item-grid">
+						<div class="subscribe__item">
+							<p class="subscribe__item__field-name">Тариф:</p>
+							<div class="input"><input type="text" value="12 месяцев/6 пользователей" disabled>
+							</div>
+						</div>
+						<div>
+							<div class="button-active">
+								<p>Изменить подписку</p>
+							</div>
+						</div>
+					</div>
+					<div class="subscribe__item-grid">
+						<div class="subscribe__item">
+							<p class="subscribe__item__field-name">Срок действия:</p>
+							<div class="input"><input type="text" value="01.01.2021-31.12.2021" disabled>
+							</div>
+						</div>
+						<div>
+							<div class="button-active">
+								<p>Внести оплату</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="user-info__border"></div>
+			</div>
+			<div class="user-info-tabs__tab">Сотрудники</div>
+			<div class="user-info__wrapper">
+				<div class="user-info__employees blue-wrapper">
+					<div class="close"></div>
+					<table class="employees__table">
+						<thead>
+							<tr>
+								<th>Ф.И.О.</th>
+								<th>Роль</th>
+								<th>Должность</th>
+								<th>Телефон</th>
+								<th>WhatsApp</th>
+								<th>Telegram</th>
+								<th>E-mail</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+
+						{% if collaborators %}
+							<tr>
+								<td>Иванов Иван Иванович</td>
+								<td>
+									<div class="input"><input type="text" value="посредник" disabled>
+										<div class="input-edit"></div>
+									</div>
+								</td>
+								<td>
+									<div class="input"><input type="text" value="менеджер" disabled>
+										<div class="input-edit"></div>
+									</div>
+								</td>
+								<td>+375296463728</td>
+								<td>+375296463728</td>
+								<td>+375296463728</td>
+								<td>darth_vader@gmail.com
+								</td>
+								<td>
+									<div class="button-active">
+										<p>Внести изменения</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Петров Пётр Петрович</td>
+								<td>
+									<div class="input"><input type="text" value="посредник" disabled>
+										<div class="input-edit"></div>
+									</div>
+								</td>
+								<td>
+									<div class="input"><input type="text" value="логист" disabled>
+										<div class="input-edit"></div>
+									</div>
+								</td>
+								<td>+375296463728</td>
+								<td>+375296463728</td>
+								<td>+375296463728</td>
+								<td>darth_vader@gmail.com
+								</td>
+								<td>
+									<div class="button-active">
+										<p>Внести изменения</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Константинопольский Константин Константинович</td>
+								<td>
+									<div class="input"><input type="text" value="посредник" disabled>
+										<div class="input-edit"></div>
+									</div>
+								</td>
+								<td>
+									<div class="input"><input type="text" value="грузчик" disabled>
+										<div class="input-edit"></div>
+									</div>
+								</td>
+								<td>+375296463728</td>
+								<td>+375296463728</td>
+								<td>+375296463728</td>
+								<td>darth_vader@gmail.com
+								</td>
+								<td>
+									<div class="button-active">
+										<p>Внести изменения</p>
+									</div>
+								</td>
+							</tr>
+
+                         {% endif %}
+
+						</tbody>
+					</table>
+				</div>
+				<div class="user-info__border"></div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+<script type="text/javascript">
+ $(document).ready(function() {
+
+
+    $('#cargo_owner_phone').inputmask('{{ cargo_owner.mask }}');
+
+    $('.user-card__rating span:nth-child(2), .user-card__rating span:last-child').on('click', function() {
+        var html = '<div class="rating-cargo-owner">';
+        html += '<p>Рейтинг грузовладельца:</p>';
+        html += '<div class="rating-cargo-owner__wrapper">';
+        html += '<div class="rating-cargo-owner__info"><p><span class="number600b">4.2</span>— Отлично</p><div><p>Вид пользователя:</p><p>Грузовладелец</p></div><div><p>Период деятельности:</p><p>5 лет</p></div><div><p>Вид деятельности:</p><p>Грузоперевозки</p></div></div>';
+        html += '<div class="rating-cargo-owner__ratings"><div><span>4.2</span><p>Своевременность погрузки</p></div><div><span>4.2</span><p>Своевременность выгрузки</p></div><div><span>3.8</span><p>Своевременность оплаты</p></div><div><span>3.8</span><p>Качество коммуникации</p></div></div></div>';
+        html += '<div class="rating-cargo-owner__reviews"><p>Отзывы</p><div class="rating-cargo-owner__reviews-wrapper">';
+        html += '<div class="rating-cargo-owner__review"><div><p>Максим:</p><p>сегодня</p></div><p>В полном восторге от сотрудничества с этим грузовладельцем! Всем советую!</p></div>';
+        html += '<div class="rating-cargo-owner__review"><div><p>Олег:</p><p>вчера</p></div><p>В полном восторге от сотрудничества с этим грузовладельцем! Всем советую! В полном восторге от сотрудничества с этим грузовладельцем! Всем советую!</p></div>';
+        html += '<div class="rating-cargo-owner__review"><div><p>Оксана:</p><p>20.09.2021</p></div><p>В полном восторге от сотрудничества с этим грузовладельцем! Всем советую!</p></div></div></div></div>';
+        modalWindow(html);
+    });
+
+    $('.user-info-tabs__tab').on('click', function() {
+        $('.user-info-tabs__tab').removeClass('active');
+        $('.user-info__wrapper').css('display', 'none');
+        $(this).addClass('active');
+        $($(this).next('.user-info__wrapper')).css('display', 'block');
+    });
+
+    $('.user-info__wrapper .close').on('click', function() {
+        $('.user-info__wrapper').css('display', 'none');
+        $('.user-info-tabs__tab').removeClass('active');
+    });
+
+    $('.company-data__item input, .company-data__item .my-select').focusin(function() {
+        $('.save-company-data__text').css('display', 'none');
+        $('.save-company-data').css('display', 'inline-flex');
+    });
+
+    $('.save-company-data').on('click', function() {
+
+		var data = {};
+		var emptyInput = false;
+
+		/*
+        $('.countries__table tbody tr:first-child td .input input').each(function() {
+            var inputCountryValue = $(this).val();
+            if (!inputCountryValue.length) {
+                emptyInput = true;
+            } else {
+                data[$(this).attr('name')] = inputCountryValue;
+            }
+        });
+		*/
+
+		var inputValue = $('#cargo_owner_phone').val();
+
+		if (!inputValue.length) {
+                emptyInput = true;
+            } else {
+                data['phone'] = inputValue;
+         }
+	 
+        if (!emptyInput) {
+			$.post(
+            "/admin", {
+                type: 'saveCargoOwnerInfo',
+                data: data,
+                owner_id: {{ cargo_owner.owner_id }},
+
+            },
+            function(response) {
+               
+                if (response.data.error) {
+
+                }
+                if (response.data.redirect) {
+                    location = response.data.redirect;
+                }
+                $('.save-company-data__text').css('display', 'block');
+                $('.save-company-data').css('display', 'none');
+            }
+        );
+
+		}
+
+
+    });
+
+    $('.legal-check-button').on('click', function() {
+        $('.legal-check__wrapper').css('display', 'block');
+        $(this).css('display', 'none');
+    });
+
+    $('.verify-button').on('click', function() {
+        $('.verify-button__text').css('display', 'block');
+        $(this).css('display', 'none');
+    });
+
+    $('.input-edit').on('click', function() {
+        $(this).css('display', 'none');
+        $($(this).prev('.input input')).removeAttr('disabled');
+        $($(this).prev('.input input')).val('');
+        $($(this).prev('.input input')).focus();
+
+        $($(this).prev('.input input')).focusout(function() {
+            $('.input-edit').css('display', 'block');
+        });
+
+    });
+
+
+
+
+});
+</script>
+
+{% include footer  %}

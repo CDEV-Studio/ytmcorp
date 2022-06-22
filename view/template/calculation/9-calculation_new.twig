@@ -1,0 +1,550 @@
+{% include header  %}
+<style>
+#etsng_select, #gng_select {
+	display:none;
+}
+.my-select>div:first-child {
+	 font: normal 400 20px/117% 'Raleway';
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #525252;
+}
+</style>
+<div class="content-column no-columns container">
+
+	<div class="content-top"></div>
+
+	<div class="central-column">
+
+		<div class="back">
+                        <p>Назад</p>
+                        <div class="back__balance balance-card">
+                            <div><span>225 KZN</span>
+                                <p>текущий баланс</p>
+                            </div>
+                            <div class="balance-card__plus"></div>
+                        </div>
+                    </div>
+
+		<div class="calculation-new small-box">
+			<div class="main-head">
+				<div class="burger-main"></div>
+				<h1 class="title">Новый расчёт</h1>
+			</div>
+
+			<div class="calculation-new__step1">
+				<p class="subtitle-text">Для создания нового расчёта введите данные:</p>
+				<div class="calculation-new__wrapper white-background">
+					<h3 class="subtitle">Маршрут:</h3>
+					<div>
+						<div class="input">
+							<div class="placeholder-absolut">Станция погрузки</div>
+							<input type="text"  name="loading_station" id="loading_station">
+							<input type="hidden"  name="loading_station_name" id="loading_station_name">
+							<input type="hidden"  name="loading_station_id" id="loading_station_id">
+							<input type="hidden"  name="loading_station_country" id="loading_station_country">
+							<input type="hidden"  name="loading_station_railway" id="loading_station_railway">
+							<input type="hidden"  name="loading_station_department" id="loading_station_department">
+
+							<div class="after-input"></div>
+						</div>
+						<div class="input">
+							<div class="placeholder-absolut">Станция выгрузки</div>
+							<input type="text"  name="unloading_station" id="unloading_station">
+							<input type="hidden"  name="unloading_station_name" id="unloading_station_name">
+							<input type="hidden"  name="unloading_station_id" id="unloading_station_id">
+
+							<input type="hidden"  name="unloading_station_country" id="unloading_station_country">
+							<input type="hidden"  name="unloading_station_railway" id="unloading_station_railway">
+							<input type="hidden"  name="unloading_station_department" id="unloading_station_department">
+
+							<div class="after-input"></div>
+						</div>
+					</div>
+					<div>
+						<div class="button-notactive" id="first_step_calculation" onClick="chekFirstStepCalculation()">Далее</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="calculation-new__step2" id="calculation-new__step2">
+				<div class="calculation-new__wrapper white-background">
+					<h3 class="subtitle">Груз:</h3>
+					<div>
+						<div class="input" id="etsng_area">
+							<div class="placeholder-absolut">ЕТСНГ</div>
+
+				 <div class="my-select" id="etsng_select">
+				      <div>Выберите из списка</div>
+					  <div id="etsng_answer"></div>
+					 
+					<input type="hidden" value="0">
+				</div>
+
+							<input id="etsng" type="text"  name="etsng">
+							<input id="etsng_id" type="hidden"  name="etsng_id">
+							<input id="etsng_name" type="hidden"  name="etsng_name">
+						</div>
+						<div class="input" id="gng_area">
+							<div class="placeholder-absolut">ГНГ</div>
+
+                <div class="my-select" id="gng_select">
+				    <div>Выберите из списка</div>
+					<div id="gng_answer"></div>
+					<input type="hidden"  value="0">
+				</div>
+
+							<input id="gng" type="text"  name="gng">
+							<input id="gng_id" type="hidden" value="0" name="gng_id">
+							<input id="gng_name" type="hidden"  name="gng_name">
+						</div>
+					</div>
+					<div>
+						<div class="button-notactive" id="second_step_calculation" onClick="chekSecondStepCalculation()">Далее</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="calculation-new__step3" id="calculation-new__step3">
+				<div class="calculation-new__wrapper white-background">
+					<h3 class="subtitle">Вагон:</h3>
+					<div>
+						
+						<div class="my-select absolut-select" id="railway_carriage">
+							<div>Вид подвижного состава</div>
+							<div>
+								<div data="0">Выберите из списка</div>
+
+								{% for car in railway_carriage %}
+									<div data="{{ car.railway_carriage_id }}">{{ car.railway_carriage_type }}</div>
+								{% endfor %}
+
+							</div>
+							<input id="railway_carriage_id" name="railway_carriage_id" type="hidden" value="0">
+						</div>
+						<div class="input">
+							<div class="placeholder-absolut">Вес груза в одном вагоне (т)</div>
+							<input type="text"  name="weight" id="weight">
+						</div>
+					</div>
+					<div>
+						<div class="button-notactive" id="send_step_calculation" onClick="chekSendStepCalculation()">Рассчитать</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="content-bottom"></div>
+</div>
+<script>
+var sendForm = false;
+var checkGNG = true;
+
+function chekFirstStepCalculation() {
+
+    $('#loading_station,#unloading_station').removeClass('error');
+
+    var loading_station_id = $('#loading_station_id').val();
+    var unloading_station_id = $('#unloading_station_id').val();
+
+    if (!loading_station_id.length) {
+        $('#loading_station').addClass('error');
+    }
+    if (!unloading_station_id.length) {
+        $('#unloading_station').addClass('error');
+    }
+
+    if (!loading_station_id.length || !unloading_station_id.length) {
+        return;
+    }
+
+    $('#first_step_calculation').removeClass('button-notactive').addClass('button-active').addClass('open-calculation-step-2');
+    $('.open-calculation-step-2').on('click', function() {
+        $('#calculation-new__step2').show();
+        $('.calculation-new__step1 .calculation-new__wrapper').removeClass('white-background');
+        $(this).hide();
+    });
+
+}
+
+function chekSecondStepCalculation() {
+
+    $('#etsng,#gng,#etsng_select>div:first-child,#gng_select>div:first-child').removeClass('error');
+
+    var etsng_id = $('#etsng_id').val();
+    var gng_id = $('#gng_id').val();
+
+    if (!etsng_id.length) {
+        $('#etsng,#etsng_select>div:first-child').addClass('error');
+    }
+
+    if(checkGNG) {
+
+       if (!gng_id.length) {
+          $('#gng,#gng_select>div:first-child').addClass('error');
+       }
+
+       if (!etsng_id.length || !gng_id.length) {
+         return;
+       }
+
+    } else {
+
+       if (!etsng_id.length) {
+         return;
+       }
+
+    }
+    
+
+    $('#second_step_calculation').removeClass('button-notactive').addClass('button-active').addClass('open-calculation-step-3');
+    $('.open-calculation-step-3').on('click', function() {
+        $('#calculation-new__step3').show();
+        $('.calculation-new__step2 .calculation-new__wrapper').removeClass('white-background');
+        $(this).hide();
+    });
+
+}
+
+function chekSendStepCalculation() {
+
+    $('#loading_station,#unloading_station,#etsng,#gng,#weight,#railway_carriage').removeClass('error');
+
+    var loading_station_id = $('#loading_station_id').val();
+    var unloading_station_id = $('#unloading_station_id').val();
+    var etsng_id = $('#etsng_id').val();
+    var gng_id = $('#gng_id').val();
+    var railway_carriage_id = $('#railway_carriage_id').val();
+    var weight = $('#weight').val();
+
+    if (!loading_station_id.length) {
+        $('#loading_station').addClass('error');
+    }
+    if (!unloading_station_id.length) {
+        $('#unloading_station').addClass('error');
+    }
+
+    if (!etsng_id.length) {
+        $('#etsng').addClass('error');
+    }
+    if (!gng_id.length) {
+        $('#gng').addClass('error');
+    }
+
+    if (!railway_carriage_id) {
+        $('#railway_carriage').addClass('error');
+    }
+    if (!weight.length) {
+        $('#weight').addClass('error');
+    }
+
+    var maxWeight = {{  max_weight }};
+
+    if (parseFloat(weight) > maxWeight) {
+
+        $('#weight').addClass('error');
+        weight = '';
+
+    }
+
+    if (!loading_station_id.length || !unloading_station_id.length || !etsng_id.length || !gng_id.length || !railway_carriage_id || !weight.length) {
+        return;
+    }
+
+    $('#send_step_calculation').removeClass('button-notactive').addClass('button-active').addClass('open-calculation-step-3');
+    $('.open-calculation-step-3').on('click', function() {
+        if (!sendForm) {
+            $(this).hide();
+            sendForm = true;
+
+            $.post(
+                "/calculation", {
+                    type: 'new',
+                    loading_station_name: $('#loading_station_name').val(),
+                    loading_station_id: $('#loading_station_id').val(),
+                    loading_station_country: $('#loading_station_country').val(),
+                    loading_station_railway: $('#loading_station_railway').val(),
+                    loading_station_department: $('#loading_station_department').val(),
+                    unloading_station_name: $('#unloading_station_name').val(),
+                    unloading_station_id: $('#unloading_station_id').val(),
+                    unloading_station_country: $('#unloading_station_country').val(),
+                    unloading_station_railway: $('#unloading_station_railway').val(),
+                    unloading_station_department: $('#unloading_station_department').val(),
+                    etsng_id: $('#etsng_id').val(),
+                    etsng_name: $('#etsng_name').val(),
+                    gng_id: $('#gng_id').val(),
+                    gng_name: $('#gng_name').val(),
+                    railway_carriage_id: $('#railway_carriage_id').val(),
+                    weight: $('#weight').val(),
+
+                },
+                function(response) {
+                    sendForm = false;
+                    if (response.data.error) {
+                        $(response.data.message[0]).after('<div class="input_error">' + response.data.message[1] + '</div>').addClass('error');
+                    }
+                    if (response.data.redirect) {
+                        location = response.data.redirect;
+                    }
+                }
+            );
+
+        }
+    });
+
+}
+$(document).ready(function() {
+    $('#loading_station').autocomplete({
+        'source': function(request, response) {
+            $.post(
+                "/autocomplete", {
+                    type: 'loading_station',
+                    minLength: 2,
+                    filter: encodeURIComponent($('#loading_station').val()),
+
+                },
+                function(json) {
+
+                    if (json.data.success && json.data.data) {
+                        response($.map(json.data.data, function(item) {
+                            return {
+
+                                'label': item['name_and_road'],
+                                'name': item['name'],
+                                'id': item['station_id'],
+                                'road': item['road'],
+                                'country': item['country'],
+                                'department': item['department'],
+                                'railway': item['railway'],
+
+                            }
+                        }));
+                    }
+                }
+            );
+
+        },
+        'select': function(event, ui) {
+            $('#loading_station').val(ui.item.name);
+            $('#loading_station_name').val(ui.item.name);
+            $('#loading_station_id').val(ui.item.id);
+            $('#loading_station_country').val(ui.item.country);
+            $('#loading_station_railway').val(ui.item.railway);
+            $('#loading_station_department').val(ui.item.department);
+            $('#loading_station_id + div').text(ui.item.road);
+            // chekFirstStepCalculation();
+        }
+    });
+    $('#unloading_station').autocomplete({
+        'source': function(request, response) {
+            $.post(
+                "/autocomplete", {
+                    type: 'unloading_station',
+                    minLength: 2,
+                    filter: encodeURIComponent($('#unloading_station').val()),
+
+                },
+                function(json) {
+                    if (json.data.success && json.data.data) {
+                        response($.map(json.data.data, function(item) {
+                            return {
+
+                                'label': item['name_and_road'],
+                                'name': item['name'],
+                                'id': item['station_id'],
+                                'road': item['road'],
+                                'country': item['country'],
+                                'department': item['department'],
+                                'railway': item['railway'],
+
+
+                            }
+                        }));
+                    }
+                }
+            );
+
+        },
+        'select': function(event, ui) {
+            $('#unloading_station').val(ui.item.name);
+            $('#unloading_station_name').val(ui.item.name);
+            $('#unloading_station_country').val(ui.item.country);
+            $('#unloading_station_railway').val(ui.item.railway);
+            $('#unloading_station_department').val(ui.item.department);
+            $('#unloading_station_id').val(ui.item.id);
+            $('#unloading_station_id + div').text(ui.item.road);
+            chekFirstStepCalculation();
+        }
+    });
+    $('#etsng').autocomplete({
+        'source': function(request, response) {
+            $.post(
+                "/autocomplete", {
+                    type: 'etsng',
+                    minLength: 2,
+                    filter: encodeURIComponent($('#etsng').val()),
+
+                },
+                function(json) {
+                    if (json.data.success && json.data.data) {
+                        response($.map(json.data.data, function(item) {
+                            return {
+
+                                'label': '[' + item['station_id'] + '] ' + item['name'],
+                                'id': item['station_id'],
+                                'name': item['name'],
+
+
+                            }
+                        }));
+
+
+
+
+                    }
+                }
+            );
+
+        },
+        'select': function(event, ui) {
+            $('#etsng_id').val(ui.item.id);
+            $('#etsng_name').val(ui.item.name);
+            // chekSecondStepCalculation();
+
+          
+            $.post(
+                "/autocomplete", {
+                    type: 'related',
+                    filter: encodeURIComponent($('#etsng_id').val()),
+
+                },
+                function(json) {
+                    if (json.data.success && json.data.data) {
+
+                         $('#gng_answer').html('');
+                         $('#gng_select').show();
+                         $('#gng').attr('type', 'hidden');
+                         $('#gng_select  div:nth-child(1)').text('Выберите из списка');
+                         $('#gng_id').val('');
+ 
+ 
+                           checkGNG = true;
+ 
+                           $.each(json.data.data, function(e, item) {
+ 
+                            var html = '';
+
+                            html += '<div id="gngitem' + item['station_id'] + '" data-name="' + item['name'] + '" data-id="' + item['station_id'] + '">' + '[' + item['station_id'] + '] ' + item['name'] + '</div>';
+                            $('#gng_answer').append(html);
+
+                            $('#gngitem' + item['station_id']).on('click', function(event) {
+                                $('.my-select div:nth-child(2)> div').removeClass('active');
+                                $(this).addClass('active');
+
+                                $('#gng_id').val($(this).attr('data-id'));
+                                $('#gng_name').val($(this).attr('data-name'));
+
+                                $($($(this).parent()).prev("div")).text($(this).text()).trigger('click');
+                                chekSecondStepCalculation();
+
+                            });
+  
+                           });
+
+                        } else {
+
+                         checkGNG = false;
+                         chekSecondStepCalculation();
+
+                    }
+                }
+            );
+ 
+        }
+    });
+ 
+	$('#gng').autocomplete({
+        'source': function(request, response) {
+            $.post(
+                "/autocomplete", {
+                    type: 'gng',
+                    filter: encodeURIComponent($('#gng').val()),
+
+                },
+                function(json) {
+                    if (json.data.success && json.data.data) {
+                        response($.map(json.data.data, function(item) {
+                            return {
+
+                                'label':'[' + item['station_id'] + '] ' + item['name'], 
+                                'id': item['station_id'],
+								'name': item['name'],
+
+                            }
+                        }));
+                    }
+                }
+            );
+
+        },
+        'select': function(event, ui) {  
+			 $('#gng_id').val(ui.item.id);
+			 $('#gng_name').val(ui.item.name);
+			 chekSecondStepCalculation();
+ 
+
+            $('#etsng_answer').html('');
+            $('#etsng_select').show();
+            $('#etsng').attr('type', 'hidden');
+            $('#etsng_select  div:nth-child(1)').text('Выберите из списка');
+            $('#etsng_id').val('');
+
+            $.post(
+                "/autocomplete", {
+                    type: 'related',
+                    filter: encodeURIComponent($('#gng_id').val()),
+
+                },
+                function(json) {
+                    if (json.data.success && json.data.data) {
+ 
+                        $.each(json.data.data, function(e, item) {
+ 
+                            var html = '';
+
+                            html += '<div id="itemetsng' + item['station_id'] + '" data-name="' + item['name'] + '" data-id="' + item['station_id'] + '">' + '[' + item['station_id'] + '] ' + item['name'] + '</div>';
+                            $('#etsng_answer').append(html);
+
+                            $('#itemetsng' + item['station_id']).on('click', function(event) {
+                                $('.my-select div:nth-child(2)> div').removeClass('active');
+                                $(this).addClass('active');
+
+                                $('#etsng_id').val($(this).attr('data-id'));
+                                $('#etsng_name').val($(this).attr('data-name'));
+
+                                $($($(this).parent()).prev("div")).text($(this).text()).trigger('click');
+								chekSecondStepCalculation();
+
+                            });
+  
+                        });
+ 
+                    }
+                }
+            );
+ 
+
+        }
+    });
+
+    $('#weight').on('change', function() {
+        chekSendStepCalculation();
+    });
+});
+</script>
+{% include footer  %}

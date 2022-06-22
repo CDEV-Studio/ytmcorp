@@ -1,0 +1,453 @@
+{% include header  %}
+<style>
+.countries-table__wrapper {
+    max-width: auto!important; 
+}
+.countries__table {
+ 
+    width: 840px;
+	border: 0px solid #fff;
+ 
+}
+.country-dell {
+	margin-top: 0px;
+}
+.countries__table thead tr th:last-child, .countries__table tbody tr td:last-child{
+	border: 0px solid #fff;
+	
+}
+input[type=file] {
+	display:none;
+}
+</style>
+<div class="countries container">
+
+	<div class="back">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="main-head">
+			<h1 class="title-red">Страны</h1>
+		</div>
+
+		<div class="countries__wrapper">
+			<div class="button-active create-country">
+				<p>Создать</p>
+			</div>
+
+			<div class="countries-table__wrapper">
+				<table class="countries__table">
+					<thead>
+						<tr>
+							<th>Код</th>
+							<th>Флаг</th>
+							<th>Наименование</th>
+							<th>Телефонный код</th>
+							<th></th>
+							 
+						</tr>
+					</thead>
+					<tbody>
+
+ {% for country in countries %} 
+
+                        <tr id="country_row{{ country.country_id }}">
+							<td>
+								<div class="input"><input type="text" maxlength="2" value="{{ country.code }}" placeholder="Код"  data='{"WHERE":{"country_id":"{{ country.country_id }}"},"COLUMN":"code"}' style="border: none; background-color:#FFFFFF00 " disabled>
+									<div class="input-edit"  style="display:block;"></div>
+								</div>
+							</td>
+							<td>
+								<div>
+									 
+									{% if country.icon %}
+									  <div class="flag-image" style="display:block;"><img src="{{ country.icon }}"> </div>
+									  <input type="file" id="file{{ country.country_id }}" name="file{{ country.country_id }}" accept="image/jpeg,image/png" >
+									  <label for="file{{ country.country_id }}" class="input-edit" style="display:block;"></label>
+									{% else %}
+									  <div class="download-image"></div><input type="file" id="file{{ country.country_id }}" name="file{{ country.country_id }}" accept="image/jpeg,image/png" >  
+									  <label for="file{{ country.country_id }}">Загрузить <br> изображение</label>
+									{% endif %}
+									
+								</div>
+							</td>
+							<td>
+								<div class="input"><input type="text" value="{{ country.name }}" data='{"WHERE":{"country_id":"{{ country.country_id }}"},"COLUMN":"name"}'  placeholder="Введите название страны"style="border: none; background-color:#FFFFFF00 " disabled>
+									<div class="input-edit" style="display:block;"></div>
+								</div>
+							</td>
+							<td>
+								<div class="input"><input type="text" value="{{ country.mask }}" placeholder="Введите телефонный код" data='{"WHERE":{"country_id":"{{ country.country_id }}"},"COLUMN":"mask"}'  style="border: none; background-color:#FFFFFF00 " disabled>
+									<div class="input-edit" style="display:block;"></div>
+								</div>
+							</td>
+							<td><div class="country-dell" data="{{ country.country_id }}"></div></td>
+						 
+						</tr>
+
+ {% endfor %}
+ 
+
+					</tbody>
+				</table>
+
+				 
+				<div>
+					<div class="button-active add-country">
+						<p>Внести</p>
+					</div>
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+ <script type="text/javascript">
+$(document).ready(function() {
+
+    $('.countries-table__wrapper').css('display', 'grid');
+    $('.add-country').css('visibility', 'hidden');
+
+    $('.create-country').on('click', function() {
+
+        var html = '<tr id="country_add">';
+        html += '<td>';
+        html += '<div class="input"><input type="text" maxlength="2" name="code" value="" placeholder="Код">';
+        html += '<div class="input-edit"></div>';
+        html += '</div>';
+        html += '</td>';
+        html += '<td>';
+        html += '<div>';
+       
+        html += '<div class="download-image"></div><input type="file" id="file" name="file" accept="image/jpeg,image/png" ><label for="file">Загрузить';
+        html += '<br>изображение</label>';
+      
+        html += '</div>';
+        html += '</td>';
+        html += '<td>';
+        html += '<div class="input"><input type="text" name="name" value="" placeholder="Введите название страны">';
+        html += '<div class="input-edit"></div>';
+        html += '</div>';
+        html += '</td>';
+        html += '<td>';
+        html += '<div class="input"><input type="text" value="" name="mask" placeholder="Введите телефонный код">';
+        html += '<div class="input-edit"></div>';
+        html += '</div>';
+        html += '</td>';
+        html += '<td><div class="country-dell" id="country_dell"></div></td>';
+        html += '</tr>';
+        $('tbody').prepend(html);
+
+        $('.add-country').css('visibility', 'visible');
+
+        $('.countries__table tbody tr td .input input').focusout(function() {
+            var inputCountryValue = $(this).val();
+            if (inputCountryValue.length) {
+                $($(this).next('.input-edit')).css('display', 'block');
+                $(this).css('border', 'none').css('background-color', '#FFFFFF00').prop("disabled", true);
+            }
+        });
+
+        $('#country_dell').on('click', function() {
+
+            $('#country_add').remove();
+            $('.add-country').css('visibility', 'hidden');
+
+        });
+        $('.input-edit').on('click', function() {
+            $($(this).prev('input')).css('border', '1px solid #D1DBE1').css('background-color', '#FFF').prop("disabled", false);;
+        });
+
+		$(document).on('change', '#file', function() {
+
+              var formData = new FormData();
+              formData.append('file', $("#file")[0].files[0]);
+              formData.append('type', "image");
+              formData.append('country_id', 0);
+ 
+              $.ajax({
+                  type: "POST",
+                  url: "/admin/countries",
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  data: formData,
+
+                  success: function(response) {
+                   if (response.data.error) {
+                     alert('Изображение не загружено!');
+                   } else {
+
+                       var html = '<div class="flag-image" style="display:block;"><img id="uploaded" data="' + response.data.filename + '" src="' + response.data.icon + '"> </div>';
+
+                       $($('#file').prev('div')).remove();
+                       $('#file').before(html);
+                       $('#file + label').addClass('input-edit').text('').css('display', 'block');
+
+                   }
+
+                  }
+               });
+
+        });
+    });
+
+    $('.country-dell').on('click', function() {
+        deleteCountry($(this).attr('data'));
+    });
+
+    $('.input-edit').on('click', function() {
+        $($(this).prev('input')).css('border', '1px solid #D1DBE1').css('background-color', '#FFF').prop("disabled", false);;
+    });
+
+    $('.countries__table tbody tr td .input input').focusout(function() {
+        var inputCountryValue = $(this).val();
+        if (inputCountryValue.length) {
+
+            $($(this).next('.input-edit')).css('display', 'block');
+            $(this).css('border', 'none').css('background-color', '#FFFFFF00').prop("disabled", true);
+
+            $.post(
+                "/admin/countries", {
+                    type: 'save',
+                    json: $(this).attr('data'),
+                    data: $(this).val()
+
+                },
+                function(response) {
+                    if (response.data.error) {
+                        alert('Произошла ошибка!');
+                    } else {
+
+                    }
+
+                }
+            );
+        }
+    });
+
+    $('.add-country').on('click', function() {
+
+        var data = {};
+        var emptyInput = false;
+        $('.countries__table tbody tr:first-child td .input input').each(function() {
+            var inputCountryValue = $(this).val();
+            if (!inputCountryValue.length) {
+                emptyInput = true;
+            } else {
+                data[$(this).attr('name')] = inputCountryValue;
+            }
+        });
+
+		data['icon'] = $('#uploaded').attr('data');
+
+        if (!emptyInput) {
+
+            $.post(
+                "/admin/countries", {
+                    type: 'new',
+                    data: data,
+                },
+                function(response) {
+                    if (response.data.error) {
+                        alert('Произошла ошибка!');
+                    } else {
+
+                        var html = '<tr id="country_row' + response.data.country_id + '">';
+                        html += '<td>';
+                        html += '<div class="input"><input type="text" maxlength="2" data=';
+                        html += "'";
+                        html += '{"WHERE":{"country_id":"' + response.data.country_id + '"},"COLUMN":"code"}';
+                        html += "'";
+                        html += 'value="' + $('#country_add input[name=code]').val() + '" placeholder="Код">';
+                        html += '<div style="display:block;" class="input-edit input-edit' + response.data.country_id + '"></div>';
+                        html += '</div>';
+                        html += '</td>';
+                        html += '<td>';
+                        html += '<div>';
+
+						 if ($('#uploaded').attr('data')) {
+
+                            html += '<div class="flag-image" style="display:block;"><img src="' + $('#uploaded').attr('src') + '"> </div>';
+						    html += '<input type="file" id="file' + response.data.country_id + '" name="file' + response.data.country_id + '" accept="image/jpeg,image/png" >';
+						    html += '<label for="file' + response.data.country_id + '" class="input-edit" style="display:block;"></label>';
+
+						 } else {
+
+                            html += '<div class="download-image"></div><input type="file" id="file' + response.data.country_id + '" name="file' + response.data.country_id + '" accept="image/jpeg,image/png" >';  
+							html += '<label for="file' + response.data.country_id + '">Загрузить <br> изображение</label>';
+
+						 }
+  
+                      
+					   
+					    html += '</div>';
+                        html += '</td>';
+                        html += '<td>';
+                        html += '<div class="input"><input type="text" data=';
+                        html += "'";
+                        html += '{"WHERE":{"country_id":"' + response.data.country_id + '"},"COLUMN":"name"}';
+                        html += "'";
+                        html += 'value="' + $('#country_add input[name=name]').val() + '" placeholder="Введите название страны">';
+                        html += '<div  style="display:block;" class="input-edit input-edit' + response.data.country_id + '"></div>';
+                        html += '</div>';
+                        html += '</td>';
+                        html += '<td>';
+                        html += '<div class="input"><input type="text" value="' + $('#country_add input[name=mask]').val() + '" data=';
+                        html += "'";
+                        html += '{"WHERE":{"country_id":"' + response.data.country_id + '"},"COLUMN":"mask"}';
+                        html += "'";
+                        html += 'placeholder="Введите телефонный код">';
+                        html += '<div style="display:block;" class="input-edit input-edit' + response.data.country_id + '"></div>';
+                        html += '</div>';
+                        html += '</td>';
+                        html += '<td><div  class="country-dell"   onClick="deleteCountry(' + response.data.country_id + ');"></div></td>';
+                        html += '</tr>';
+
+                        $('#country_add').remove();
+                        $('tbody').prepend(html);
+
+
+                        $('.input-edit' + response.data.country_id).on('click', function() {
+                            $($(this).prev('input')).css('border', '1px solid #D1DBE1').css('background-color', '#FFF').prop("disabled", false);;
+                        });
+
+                        $('.countries__table tbody tr td .input input').css('border', 'none').css('background-color', '#FFFFFF00');
+                        $('.countries__table tbody tr td .input input').prop("disabled", true);
+                        $('.add-country').css('visibility', 'hidden');
+
+						$(document).on('change', '#file' + response.data.country_id, function() {
+
+    var formData = new FormData();
+    formData.append('file', $("#file" + response.data.country_id)[0].files[0]);
+    formData.append('type', "image");
+    formData.append('country_id',  response.data.country_id);
+
+
+    $.ajax({
+        type: "POST",
+        url: "/admin/countries",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+
+        success: function(_response) {
+            if (_response.data.error) {
+                alert('Изображение не загружено!');
+            } else {
+
+                var html = '<div class="flag-image" style="display:block;"><img src="' + _response.data.icon + '"> </div>';
+
+                $($('#file' + _response.data.country_id).prev('div')).remove();
+                $('#file' + _response.data.country_id).before(html);
+                $('#file' + _response.data.country_id + ' + label').addClass('input-edit').text('').css('display', 'block');
+
+            }
+
+        }
+    });
+
+});
+
+                        $('.countries__table tbody #country_row' + response.data.country_id + ' td .input input').focusout(function() {
+                            var inputCountryValue = $(this).val();
+                            if (inputCountryValue.length) {
+
+                                $($(this).next('.input-edit')).css('display', 'block');
+                                $(this).css('border', 'none').css('background-color', '#FFFFFF00').prop("disabled", true);
+
+                                $.post(
+                                    "/admin/countries", {
+                                        type: 'save',
+                                        json: $(this).attr('data'),
+                                        data: $(this).val()
+
+                                    },
+                                    function(response) {
+                                        if (response.data.error) {
+                                            alert('Произошла ошибка!');
+                                        } else {
+
+                                        }
+
+                                    }
+                                );
+                            }
+                        });
+
+                    }
+
+                }
+            );
+
+        }
+    });
+
+});
+
+function deleteCountry(country_id) {
+
+    $.post(
+        "/admin/countries", {
+            type: 'delete',
+            country_id: country_id,
+
+        },
+        function(response) {
+            if (response.data.error) {
+                alert('Произошла ошибка!');
+            } else {
+                $('#country_row' + country_id).remove();
+            }
+
+        }
+    );
+
+}
+
+{% for country in countries %} 
+
+$(document).on('change', '#file{{ country.country_id }}', function() {
+
+    var formData = new FormData();
+    formData.append('file', $("#file{{ country.country_id }}")[0].files[0]);
+    formData.append('type', "image");
+    formData.append('country_id', {{country.country_id}});
+
+
+    $.ajax({
+        type: "POST",
+        url: "/admin/countries",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+
+        success: function(response) {
+            if (response.data.error) {
+                alert('Изображение не загружено!');
+            } else {
+
+                var html = '<div class="flag-image" style="display:block;"><img src="' + response.data.icon + '"> </div>';
+
+                $($('#file{{ country.country_id }}').prev('div')).remove();
+                $('#file{{ country.country_id }}').before(html);
+                $('#file{{ country.country_id }} + label').addClass('input-edit').text('').css('display', 'block');
+
+            }
+
+        }
+    });
+
+});
+
+ {% endfor %}
+ 
+ </script>
+{% include footer  %}

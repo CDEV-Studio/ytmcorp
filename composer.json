@@ -1,0 +1,17 @@
+{
+    "require": {
+
+        "catfan/medoo": "dev-master",
+        "slim/slim": "4.9.0",
+        "respect/validation": "*",
+        "slim/twig-view": "^3.0",
+        "slim/psr7": "*",
+        "nyholm/psr7": "*",
+        "nyholm/psr7-server": "*",
+        "guzzlehttp/psr7": "^2",
+        "laminas/laminas-diactoros": "*",
+        "gumlet/php-image-resize": "1.9.*",
+        "shuchkin/simplexlsx": "*"
+
+    }
+}

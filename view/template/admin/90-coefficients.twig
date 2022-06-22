@@ -1,0 +1,101 @@
+{% include header  %}
+<div class="currencies-rates container">
+
+	<div class="back">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="main-head">
+			<div class="burger-main"></div>
+			<h1 class="title-red">Коэффициенты</h1>
+		</div>
+
+		<div class="user-tabs">
+			<div class="user-tabs__tab active">
+				<p>ЖД-тариф</p>
+			</div>
+			<div class="user-tabs__tab" onClick="location='/admin/currencies';">
+				<p>Курс валют</p>
+			</div>
+		</div>
+
+		<div class="odds__wrapper">
+			 
+					
+
+ {% for coefficient in coefficients  %} 
+
+{% if loop.index == 1 or loop.index == 7 or loop.index == 13 %}
+<div> <div class="odds__items">
+{% endif %}
+					<div class="odds__item-wrapper">
+						<div class="odds__item">
+							<div class="rates__item">
+								<div class="rates__currency">{{ coefficient.country_name }}</div>
+								<div class="rates__value"><input type="text" id="coefficient_{{ coefficient.tariff_id }}" value="{{ coefficient.percent }}" disabled>
+									<p>%</p>
+								</div>
+							</div>
+							<div class="input-edit"></div>
+						</div>
+						<div class="odds__save button-active" onClick="saveCoefficient( {{ coefficient.tariff_id }} );">
+							<p>Сохранить</p>
+						</div>
+					</div>
+
+{% if loop.index == 6 or loop.index == 12 or loop.index > 23 %}
+</div></div>
+{% endif %}
+
+ {% endfor %}	
+
+	
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+<script type="text/javascript">
+
+function saveCoefficient( id  ) {
+
+	 $.post(
+       "/coefficient",
+       {
+         coefficient: $('#coefficient_' + id).val(),
+		 id: id
+       },
+       function(response){
+          if(response.data.error) {
+              $(response.data.message[0]).after('<div class="input_error">' + response.data.message[1] + '</div>').addClass('error');
+           }
+           
+       }
+    );
+
+}
+        $(document).ready(function () {
+
+            $('.input-edit').on('click', function () {
+                $(this).css('display', 'none');
+
+                $($($($(this).prev('.rates__item')).find('.rates__value')).find('input')).removeAttr('disabled');
+                $($($($(this).prev('.rates__item')).find('.rates__value')).find('input')).val('');
+                $($($($(this).prev('.rates__item')).find('.rates__value')).find('input')).focus();
+
+                $($($(this).parent()).next('.odds__save')).css('display', 'inline-flex');
+
+                $('.odds__save').on('click', function () {
+                    $(this).css('display', 'none');
+					$('.input-edit').css('display', 'block');
+                });
+
+            });
+
+        });
+    </script>
+
+{% include footer  %}

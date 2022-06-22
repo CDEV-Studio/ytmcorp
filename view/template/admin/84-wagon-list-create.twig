@@ -1,0 +1,108 @@
+{% include header  %}
+
+<div class="container">
+
+	<div class="back">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="main-head">
+			<div class="burger-main"></div>
+			<h1 class="title-red">Список вагонов</h1>
+		</div>
+
+		<div class="create-wagon">
+			<div class="input">
+				<div class="placeholder-absolut">Наименование</div>
+				<input id="railway_carriage_type" type="text" required>
+			</div>
+			<p class="subtitle-text">Внесите характеристики вагона:</p>
+			<div class="input">
+				<div class="placeholder-absolut">Грузоподъёмность (т)</div>
+				<input id="lifting_capacity" type="text">
+			</div>
+			<div class="input">
+				<div class="placeholder-absolut">Кубатура (м3)</div>
+				<input id="cubic_capacity"  type="text">
+			</div>
+			<p class="subtitle-text">Внесите требования к вагону:</p>
+			<div class="input">
+				<input id="requirements" type="text">
+			</div>
+			<div class="add-wagon-list button-notactive">
+				<p>Внести в список вагонов</p>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<script>
+var send = false;
+var sendForm = false;
+$(document).ready(function() {
+
+    $('.input input').focusout(function() {  
+
+        send = true;
+
+        $('.input input').each(function(i) {
+
+            var data = $(this).val();
+
+            if (data.length > 0) {
+
+            } else {
+
+                send = false;
+            }
+        });
+
+        if (send) {
+
+            $('.add-wagon-list').removeClass('button-notactive').addClass('button-active');
+
+        } else {
+
+            $('.add-wagon-list').removeClass('button-active').addClass('button-notactive');
+
+        }
+
+
+    });
+});
+
+$('.add-wagon-list').on('click', function(){
+   
+    $('input').removeClass('error');
+
+    if(!sendForm) {
+
+     sendForm = true;
+
+     $.post(
+       "/wagon",
+       {
+ 
+         railway_carriage_type: $('#railway_carriage_type').val(),
+         lifting_capacity: $('#lifting_capacity').val(),
+         cubic_capacity: $('#cubic_capacity').val(),
+         requirements: $('#requirements').val()
+       },
+       function(response){
+           sendRegisterForm = false;
+           if(response.data.error) {
+              $(response.data.message[0]).after('<div class="input_error">' + response.data.message[1] + '</div>').addClass('error');
+           }
+           if(response.data.redirect) {
+             location = response.data.redirect;
+           } 
+       }
+     );
+
+   }
+});
+</script>
+{% include footer  %}

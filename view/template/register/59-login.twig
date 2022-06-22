@@ -1,0 +1,87 @@
+{% include header  %}
+<div class="content-column no-columns container">
+
+	<div class="content-top"></div>
+
+	<div class="central-column">
+		<div class="login box">
+			<h1 class="title">Вход</h1>
+
+			<div class="registration-data__container">
+
+				<div class="registration-data__wrapper white-background">
+
+					<div class="registration__input">
+						<div class="input absolut"><input id="input_email" type="email" placeholder="Адрес электронной почты" data="Адрес электронной почты">
+						</div>
+						<div class="input absolut"><input id="input_password" type="password" placeholder="Пароль" data="Пароль"><a href="#" class="password-control"></a>
+						</div>
+						<div class="button-link">
+							<a href="/recovery">Забыли пароль?</a>
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="proceed__button">
+					<div class="button-notactive" id="send_login_form">Войти</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="content-bottom"></div>
+</div>
+<script>
+var send = false;
+$(document).ready(function () {
+  $('.absolut>input').focusout(function(){
+    
+	 var empty = false;
+
+	 $('.absolut>input').each(function(e,i){  
+         if(!$(i).val()) {
+            empty = true;
+		 } 
+	 });
+    
+     if( !empty ) {
+        $('#send_login_form').removeClass('button-notactive').addClass('button-active');
+        send = true;
+     } else { 
+        $('#send_login_form').removeClass('button-active').addClass('button-notactive');
+        send = false;
+     }
+  });
+});
+$('#send_login_form').on('click', function(){
+
+    $('.input_error').remove();
+    $('input').removeClass('error');
+	
+	if(send) {
+	  
+    $.post(
+       "/login",
+       {
+         email: $('#input_email').val(),
+         password: $('#input_password').val(),
+       },
+       function(response){
+          if(response.data.error) {
+              $(response.data.message[0]).after('<div class="input_error">' + response.data.message[1] + '</div>').addClass('error');
+           }
+           if(response.data.redirect) {
+             location = response.data.redirect;
+           } 
+       }
+    );
+  } else {
+    $('#input_email,#input_password').after('<div class="input_error">Заполните все поля!</div>').addClass('error');
+  }
+});
+</script>
+{% include footer  %}

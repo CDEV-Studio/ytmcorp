@@ -1,0 +1,746 @@
+{% include header  %}
+<style>
+.css_table_fix_class {
+	min-height:300px;
+}
+</style>
+<div class="users-unverified">
+
+	<div class="back container">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="main-head container">
+			<div class="burger-main"></div>
+			<h1 class="title-red">Не верифицированные пользователи</h1>
+		</div>
+
+		<div class="margin-table_wrapper">
+			<div class="margin-table"></div>
+			<div class="unverified-users-table {% if css_table_fix_class %} css_table_fix_class {% endif %}">
+				<table class="unverified-users__table">
+					<thead>
+						<tr>
+							<th>ID пользователя<div class="table-filter"></div>
+								<div class="table-filter-wrapper">
+									<div class="filter-search input"><input type="text" id="filter_owner_id"   placeholder="Введите текст"></div>
+									<div class="filter-select-all">
+										<p>Выбрать все</p>
+									</div>
+									<div class="filter-unselect-all">
+										<p>Снять выделение</p>
+									</div>
+									<div class="table-filter-checkboxes" id="table-filter-checkboxes_owner_id">
+
+                        {% for cargo_owner in cargo_owners_filters.owner_id %}
+						 {% if cargo_owner  %}
+					       <div><input type="checkbox" class="checkbox-styled cargo_owner_owner_id" name="owner_id[]" value="{{ cargo_owner  }}" id="owner_id_{{ loop.index }}"><label for="owner_id_{{ loop.index  }}">{{ cargo_owner  }}</label></div>	
+						 {% endif %}
+						{% endfor %}
+
+									</div>
+									<div class="button-active">
+										<p>Выбрать</p>
+									</div>
+								</div>
+								<div class="table-sorting">
+									<div class="table-sorting-up" data='{"owner_id":"ASC"}'></div>
+									<div class="table-sorting-down" data='{"owner_id":"DESC"}'></div>
+								</div>
+							</th>
+							<th>Дата регистрации<div class="table-filter"></div>
+								<div class="table-filter-wrapper">
+									<div class="filter-search input"><input type="text" id="filter_registration_date"  placeholder="Введите текст"></div>
+									<div class="filter-select-all">
+										<p>Выбрать все</p>
+									</div>
+									<div class="filter-unselect-all">
+										<p>Снять выделение</p>
+									</div>
+									<div class="table-filter-checkboxes" id="table-filter-checkboxes_registration_date">
+
+					    {% for cargo_owner in cargo_owners_filters.registration_date %}
+						 {% if cargo_owner  %}
+					      <div><input type="checkbox" class="checkbox-styled cargo_owner_registration_date" name="owner_registration_date[]" value="{{ cargo_owner  }}" id="registration_date_{{ loop.index }}"><label for="registration_date_{{ loop.index  }}">{{ cargo_owner  }}</label></div>	
+						 {% endif %}
+						{% endfor %}
+
+									</div>
+									<div class="button-active">
+										<p>Выбрать</p>
+									</div>
+								</div>
+								<div class="table-sorting">
+									<div class="table-sorting-up" data='{"registration_date":"ASC"}'></div>
+									<div class="table-sorting-down" data='{"registration_date":"DESC"}'></div>
+								</div>
+							</th>
+							<th>Дата последнего посещения<div class="table-filter"></div>
+								<div class="table-filter-wrapper">
+									<div class="filter-search input"><input type="text"  id="filter_last_visit_date"  placeholder="Введите текст"></div>
+									<div class="filter-select-all">
+										<p>Выбрать все</p>
+									</div>
+									<div class="filter-unselect-all">
+										<p>Снять выделение</p>
+									</div>
+									<div class="table-filter-checkboxes" id="table-filter-checkboxes_last_visit_date">
+
+					    {% for cargo_owner in cargo_owners_filters.last_visit_date %}
+						 {% if cargo_owner  %}
+					      <div><input type="checkbox" class="checkbox-styled cargo_owner_last_visit_date" name="owner_last_visit_date[]" value="{{ cargo_owner  }}" id="last_visit_date_{{ loop.index }}"><label for="last_visit_date_{{ loop.index  }}">{{ cargo_owner  }}</label></div>
+						 {% endif %}
+						{% endfor %}
+
+									</div>
+									<div class="button-active">
+										<p>Выбрать</p>
+									</div>
+								</div>
+								<div class="table-sorting">
+									<div class="table-sorting-up" data='{"last_visit_date":"ASC"}'></div>
+									<div class="table-sorting-down" data='{"last_visit_date":"DESC"}'></div>
+								</div>
+							</th>
+							<th>E-mail / Логин<div class="table-filter"></div>
+								<div class="table-filter-wrapper">
+									<div class="filter-search input"><input type="text"  id="filter_email" placeholder="Введите текст"></div>
+									<div class="filter-select-all">
+										<p>Выбрать все</p>
+									</div>
+									<div class="filter-unselect-all">
+										<p>Снять выделение</p>
+									</div>
+									<div class="table-filter-checkboxes" id="table-filter-checkboxes">
+										 
+                        {% for cargo_owner in cargo_owners_filters.email %}
+						 {% if cargo_owner %}
+					     <div><input type="checkbox" class="checkbox-styled cargo_owner_email" name="owner_email[]" value="{{ cargo_owner  }}" id="email_{{ loop.index }}"><label for="email_{{ loop.index  }}">{{ cargo_owner  }}</label></div>
+						 {% endif %}	
+						{% endfor %}
+
+
+									</div>
+									<div class="button-active">
+										<p>Выбрать</p>
+									</div>
+								</div>
+								<div class="table-sorting">
+									<div class="table-sorting-up" data='{"email":"ASC"}'></div>
+									<div class="table-sorting-down" data='{"email":"DESC"}'></div>
+								</div>
+							</th>
+							<th>Телефон<div class="table-filter"></div>
+								<div class="table-filter-wrapper">
+									<div class="filter-search input"><input type="text" id="filter_phone" placeholder="Введите текст"></div>
+									<div class="filter-select-all">
+										<p>Выбрать все</p>
+									</div>
+									<div class="filter-unselect-all">
+										<p>Снять выделение</p>
+									</div>
+									<div class="table-filter-checkboxes" id="table-filter-checkboxes_phone">
+										
+
+                        {% for cargo_owner in cargo_owners_filters.phone %}
+						 {% if cargo_owner  %}
+					       <div><input type="checkbox" class="checkbox-styled cargo_owner_phone" name="owner_phone[]" value="{{ cargo_owner  }}" id="phone_{{ loop.index }}"><label for="phone_{{ loop.index  }}">{{ cargo_owner  }}</label></div>
+						 {% endif %}
+						{% endfor %}
+
+									</div>
+									<div class="button-active">
+										<p>Выбрать</p>
+									</div>
+								</div>
+								<div class="table-sorting">
+									<div class="table-sorting-up" data='{"phone":"ASC"}'></div>
+									<div class="table-sorting-down" data='{"phone":"DESC"}'></div>
+								</div>
+							</th>
+							<th>Дата запроса на верификацию<div class="table-filter"></div>
+								<div class="table-filter-wrapper">
+									<div class="filter-search input"><input type="text"  id="filter_verification_request_date" placeholder="Введите текст"></div>
+									<div class="filter-select-all">
+										<p>Выбрать все</p>
+									</div>
+									<div class="filter-unselect-all">
+										<p>Снять выделение</p>
+									</div>
+									<div class="table-filter-checkboxes" id="table-filter-checkboxes_verification_request_date">
+										
+                        {% for cargo_owner in cargo_owners_filters.verification_request_date %}
+						 {% if cargo_owner %}
+					      <div><input type="checkbox" class="checkbox-styled cargo_owner_verification_request_date" name="owner_verification_request_date[]" value="{{ cargo_owner  }}" id="verification_request_date_{{ loop.index }}"><label for="verification_request_date_{{ loop.index  }}">{{ cargo_owner  }}</label></div>
+						 {% endif %}
+						{% endfor %}
+
+									</div>
+									<div class="button-active">
+										<p>Выбрать</p>
+									</div>
+								</div>
+								<div class="table-sorting">
+									<div class="table-sorting-up" data='{"verification_request_date":"ASC"}'></div>
+									<div class="table-sorting-down" data='{"verification_request_date":"DESC"}'></div>
+								</div>
+							</th>
+							<th>Причины отказа</th>
+							<!--
+							<th>Остатки расчётов<div class="table-filter"></div>
+								<div class="table-filter-wrapper">
+									<div class="filter-search input"><input type="text" placeholder="Введите текст"></div>
+									<div class="filter-select-all">
+										<p>Выбрать все</p>
+									</div>
+									<div class="filter-unselect-all">
+										<p>Снять выделение</p>
+									</div>
+									<div class="table-filter-checkboxes">
+										<div><input type="checkbox" class="checkbox-styled" name="01.09.2021" value="01.09.2021" id="01.09.2021"><label for="01.09.2021">01.09.2021</label>
+										</div>
+										<div><input type="checkbox" class="checkbox-styled" name="02.09.2021" value="02.09.2021" id="02.09.2021"><label for="02.09.2021">02.09.2021</label>
+										</div>
+										<div><input type="checkbox" class="checkbox-styled" name="03.09.2021" value="03.09.2021" id="03.09.2021"><label for="03.09.2021">03.09.2021</label>
+										</div>
+										<div><input type="checkbox" class="checkbox-styled" name="04.09.2021" value="04.09.2021" id="04.09.2021"><label for="04.09.2021">04.09.2021</label>
+										</div>
+									</div>
+									<div class="button-active">
+										<p>Выбрать</p>
+									</div>
+								</div>
+								<div class="table-sorting">
+									<div class="table-sorting-up"></div>
+									<div class="table-sorting-down"></div>
+								</div>
+							</th>
+							<th>Использовано расчётов<div class="table-filter"></div>
+								<div class="table-filter-wrapper">
+									<div class="filter-search input"><input type="text" placeholder="Введите текст"></div>
+									<div class="filter-select-all">
+										<p>Выбрать все</p>
+									</div>
+									<div class="filter-unselect-all">
+										<p>Снять выделение</p>
+									</div>
+									<div class="table-filter-checkboxes">
+										<div><input type="checkbox" class="checkbox-styled" name="05.02.2021" value="05.02.2021" id="05.02.2021"><label for="05.02.2021">05.02.2021</label>
+										</div>
+										<div><input type="checkbox" class="checkbox-styled" name="06.02.2021" value="06.02.2021" id="06.02.2021"><label for="06.02.2021">06.02.2021</label>
+										</div>
+										<div><input type="checkbox" class="checkbox-styled" name="07.02.2021" value="07.02.2021" id="07.02.2021"><label for="07.02.2021">07.02.2021</label>
+										</div>
+										<div><input type="checkbox" class="checkbox-styled" name="08.02.2021" value="08.02.2021" id="08.02.2021"><label for="08.02.2021">08.02.2021</label>
+										</div>
+									</div>
+									<div class="button-active">
+										<p>Выбрать</p>
+									</div>
+								</div>
+								<div class="table-sorting">
+									<div class="table-sorting-up"></div>
+									<div class="table-sorting-down"></div>
+								</div>
+							</th>
+							-->
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for cargo_owner in cargo_owners %}
+							<tr>
+								<td>
+									<a href="/admin/owner_{{ cargo_owner.owner_id }}">{{ cargo_owner.owner_id }}</a>
+								</td>
+								<td>{{ cargo_owner.registration_date }}</td>
+								<td>{{ cargo_owner.last_visit_date }}</td>
+								<td>{{ cargo_owner.email }}</td>
+								<td>{{ cargo_owner.phone }}</td>
+								<td>{{ cargo_owner.verification_request_date }}</td>
+								<td>{{ cargo_owner.rejection_reason }}</td>
+								<!--
+															<td>23</td>
+															<td>23</td>
+															-->
+							</tr>
+						{% endfor %}
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+			
+		</div>
+
+
+  <div class="table-pagination container">
+        <div class="table-pagination__left0"></div>
+           <div class="table-pagination__pages">
+		    {% for i in 1..pages %}
+               <span data="{{ i }}" {% if i == 1 %} class="active {% endif %} ">{{ i }}</span>
+			{% endfor %}
+           </div>
+       {% if pages > 1 %}<div class="table-pagination__right"></div> {% endif %}
+    </div>
+
+	</div>
+
+</div>
+ <script type="text/javascript">
+
+var page = 1;
+var order = '{"owner_id":"ASC"}';
+$(document).ready(function() {
+    $('.table-filter').on('click', function() {
+        $('.table-filter-wrapper').css('display', 'none');
+        $($(this).next('.table-filter-wrapper')).css('display', 'block');
+
+        $('.filter-select-all').on('click', function() {
+            $($($($(this).nextAll('.table-filter-checkboxes')).find('div')).find('input')).addClass('checkbox-styled-selected').attr('checked', true);
+        });
+
+        $('.filter-unselect-all').on('click', function() {
+            $($($($(this).next('.table-filter-checkboxes')).find('div')).find('input')).removeClass('checkbox-styled-selected').attr('checked', false);
+        });
+
+        $('.table-filter-wrapper .button-active').on('click', function() {
+            $('.table-filter-wrapper').css('display', 'none');
+        });
+
+        //close filter on click OUT of filter
+        $(document).mouseup(function(e) {
+            var div = $('.table-filter-wrapper');
+            if (!div.is(e.target) &&
+                div.has(e.target).length === 0) {
+                div.hide();
+            }
+        });
+    });
+
+    $('.table-sorting-up,.table-sorting-down').on('click', function() {
+
+        order = $(this).attr('data');
+        getData();
+
+    });
+
+    $('.button-active').on('click', function() {
+
+        getData();
+
+    });
+
+    $('.table-pagination__pages span').on('click', function() {
+
+        page = parseInt($(this).attr('data'));
+        getData();
+
+    });
+
+});
+
+$('#filter_owner_id').autocomplete({
+
+    'source': function(request, response) {
+        $.post(
+            "/autocomplete", {
+                type: 'owners_filter',
+                filter: request.term,
+                item: 'owner_id'
+
+
+            },
+            function(response) {
+
+				$('#table-filter-checkboxes_owner_id').html('');
+
+                $.each(response.data.data, function(e,item) {
+
+                    var html = '<div><input type="checkbox" class="checkbox-styled cargo_owner_owner_id" name="owner_id[]" value="' + item.owner_id + '" id="owner_id' + item.id + '"><label for="owner_id' + item.id + '">' + item.owner_id + '</label></div>';
+					$('#table-filter-checkboxes_owner_id').append(html);
+					$('#owner_id' + item.id + ' + label').on('click', function() {
+                        var hasClass = $('#owner_id' + item.id).hasClass('checkbox-styled-selected');
+                        if (hasClass.toString() == 'true') { 
+                            $('#owner_id' + item.id ).removeClass('checkbox-styled-selected').attr('checked', false);
+                        } else {  
+                            $('#owner_id' + item.id  ).addClass('checkbox-styled-selected').attr('checked', true);
+                        }
+                    });
+
+                });
+
+            }
+        );
+
+    },
+    'select': function(item) {
+
+    }
+});
+
+$('#filter_registration_date').autocomplete({
+
+    'source': function(request, response) {
+        $.post(
+            "/autocomplete", {
+                type: 'owners_filter',
+                filter: request.term,
+                item: 'registration_date'
+
+
+            },
+            function(response) {
+
+				$('#table-filter-checkboxes_registration_date').html('');
+
+                $.each(response.data.data, function(e,item) {
+
+                    var html = '<div><input type="checkbox" class="checkbox-styled cargo_owner_registration_date" name="owner_registration_date[]" value="' + item.registration_date + '" id="owner_registration_date' + item.id + '"><label for="owner_registration_date' + item.id + '">' + item.registration_date + '</label></div>';
+					$('#table-filter-checkboxes_registration_date').append(html);
+					$('#owner_registration_date' + item.id + ' + label').on('click', function() {
+                        var hasClass = $('#owner_registration_date' + item.id).hasClass('checkbox-styled-selected');
+                        if (hasClass.toString() == 'true') { 
+                            $('#owner_registration_date' + item.id ).removeClass('checkbox-styled-selected').attr('checked', false);
+                        } else {  
+                            $('#owner_registration_date' + item.id  ).addClass('checkbox-styled-selected').attr('checked', true);
+                        }
+                    });
+
+                });
+
+            }
+        );
+
+    },
+    'select': function(item) {
+
+    }
+});
+
+$('#filter_last_visit_date').autocomplete({
+
+    'source': function(request, response) {
+        $.post(
+            "/autocomplete", {
+                type: 'owners_filter',
+                filter: request.term,
+                item: 'last_visit_date'
+
+
+            },
+            function(response) {
+
+				$('#table-filter-checkboxes_last_visit_date').html('');
+
+                $.each(response.data.data, function(e,item) {
+
+                    var html = '<div><input type="checkbox" class="checkbox-styled cargo_owner_last_visit_date" name="owner_last_visit_date[]" value="' + item.last_visit_date + '" id="owner_last_visit_date' + item.id + '"><label for="owner_last_visit_date' + item.id + '">' + item.last_visit_date + '</label></div>';
+					$('#table-filter-checkboxes_last_visit_date').append(html);
+					$('#owner_last_visit_date' + item.id + ' + label').on('click', function() {
+                        var hasClass = $('#owner_last_visit_date' + item.id).hasClass('checkbox-styled-selected');
+                        if (hasClass.toString() == 'true') { 
+                            $('#owner_last_visit_date' + item.id ).removeClass('checkbox-styled-selected').attr('checked', false);
+                        } else {  
+                            $('#owner_last_visit_date' + item.id  ).addClass('checkbox-styled-selected').attr('checked', true);
+                        }
+                    });
+
+                });
+
+            }
+        );
+
+    },
+    'select': function(item) {
+
+    }
+});
+
+$('#filter_email').autocomplete({
+
+    'source': function(request, response) {
+        $.post(
+            "/autocomplete", {
+                type: 'owners_filter',
+                filter: request.term,
+                item: 'email'
+
+
+            },
+            function(response) {
+
+                $('#table-filter-checkboxes').html('');
+
+                $.each(response.data.data, function(e,item) {
+
+                    var html = '<div><input type="checkbox" class="checkbox-styled cargo_owner_email" name="owner_email[]" value="' + item.email + '" id="email' + item.id + '"><label for="email' + item.id + '">' + item.email + '</label></div>';
+					$('#table-filter-checkboxes').append(html);
+					$('#email' + item.id + ' + label').on('click', function() {
+                        var hasClass = $('#email' + item.id).hasClass('checkbox-styled-selected');
+                        if (hasClass.toString() == 'true') { 
+                            $('#email' + item.id ).removeClass('checkbox-styled-selected').attr('checked', false);
+                        } else {  
+                            $('#email' + item.id  ).addClass('checkbox-styled-selected').attr('checked', true);
+                        }
+                    });
+
+                });
+
+              
+            }
+        );
+
+    },
+    'select': function(item) {
+
+    }
+});
+
+$('#filter_phone').autocomplete({
+
+    'source': function(request, response) {
+        $.post(
+            "/autocomplete", {
+                type: 'owners_filter',
+                filter: request.term,
+                item: 'phone'
+
+
+            },
+            function(response) {
+
+				 $('#table-filter-checkboxes_phone').html('');
+
+                $.each(response.data.data, function(e,item) {
+
+                    var html = '<div><input type="checkbox" class="checkbox-styled cargo_owner_phone" name="owner_phone[]" value="' + item.phone + '" id="phone' + item.id + '"><label for="phone' + item.id + '">' + item.phone + '</label></div>';
+					$('#table-filter-checkboxes_phone').append(html);
+					$('#phone' + item.id + ' + label').on('click', function() {
+                        var hasClass = $('#phone' + item.id).hasClass('checkbox-styled-selected');
+                        if (hasClass.toString() == 'true') { 
+                            $('#phone' + item.id ).removeClass('checkbox-styled-selected').attr('checked', false);
+                        } else {  
+                            $('#phone' + item.id  ).addClass('checkbox-styled-selected').attr('checked', true);
+                        }
+                    });
+
+                });
+
+            }
+        );
+
+    },
+    'select': function(item) {
+
+    }
+});
+
+$('#filter_verification_request_date').autocomplete({
+
+    'source': function(request, response) {
+        $.post(
+            "/autocomplete", {
+                type: 'owners_filter',
+                filter: request.term,
+                item: 'verification_request_date'
+
+
+            },
+            function(response) {
+
+				 $('#table-filter-checkboxes_verification_request_date').html('');
+
+                $.each(response.data.data, function(e,item) {
+
+                    var html = '<div><input type="checkbox" class="checkbox-styled cargo_owner_verification_request_date" name="owner_verification_request_date[]" value="' + item.verification_request_date + '" id="verification_request_date' + item.id + '"><label for="verification_request_date' + item.id + '">' + item.verification_request_date + '</label></div>';
+					$('#table-filter-checkboxes_verification_request_date').append(html);
+					$('#verification_request_date' + item.id + ' + label').on('click', function() {
+                        var hasClass = $('#verification_request_date' + item.id).hasClass('checkbox-styled-selected');
+                        if (hasClass.toString() == 'true') { 
+                            $('#verification_request_date' + item.id ).removeClass('checkbox-styled-selected').attr('checked', false);
+                        } else {  
+                            $('#verification_request_date' + item.id  ).addClass('checkbox-styled-selected').attr('checked', true);
+                        }
+                    });
+
+                });
+
+            }
+        );
+
+    },
+    'select': function(item) {
+
+    }
+});
+
+function getData() {
+
+    $('tbody').html('');
+
+    var owner_id = [];
+    $('.cargo_owner_owner_id').each(function() {
+		if($(this).attr('checked') || $(this).hasClass('checkbox-styled-selected').toString() == 'true') {
+        owner_id.push($(this).val());
+		}
+    });
+
+    var registration_date = [];
+    $('.cargo_owner_registration_date').each(function() {
+		if($(this).attr('checked') || $(this).hasClass('checkbox-styled-selected').toString() == 'true') {
+        registration_date.push($(this).val());
+		}
+    });
+
+    var last_visit_date = [];
+    $('.cargo_owner_last_visit_date').each(function() {
+		if($(this).attr('checked') || $(this).hasClass('checkbox-styled-selected').toString() == 'true') {
+        last_visit_date.push($(this).val());
+		}
+    });
+
+    var email = []; 
+    $('.cargo_owner_email').each(function() { 
+		if($(this).attr('checked') || $(this).hasClass('checkbox-styled-selected').toString() == 'true') {
+            email.push($(this).val());
+		}
+        
+    });
+
+    var phone = [];
+    $('.cargo_owner_phone').each(function() {
+		if($(this).attr('checked') || $(this).hasClass('checkbox-styled-selected').toString() == 'true') {
+        phone.push($(this).val());
+		}
+    });
+
+    var verification_request_date = [];
+    $('.cargo_owner_verification_request_date').each(function() {
+		if($(this).attr('checked') || $(this).hasClass('checkbox-styled-selected').toString() == 'true') {
+        verification_request_date.push($(this).val());
+		}
+    });
+
+    $.post(
+        "/admin/not-verified-users", {
+            order: order,
+            page: page,
+            owner_id: owner_id,
+            registration_date: registration_date,
+            last_visit_date: last_visit_date,
+            email: email,
+            phone: phone,
+            verification_request_date: verification_request_date,
+        },
+        function(response) {
+            if (response.data.error) {
+
+            } else {
+                showData(response.data.cargo_owners);
+				showPagination(response.data.pages);
+            }
+
+        }
+    );
+
+/*
+        $.ajax({
+			type: "POST",
+			url:  "/admin/not-verified-users",
+			cache: false,
+			contentType: false,
+			 
+			data: {
+            "order": order,
+            "page": page,
+            "owner_id": owner_id,
+            "registration_date": registration_date,
+            "last_visit_date": last_visit_date,
+            "email": email,
+            "phone": phone,
+            "verification_request_date": verification_request_date,
+            },
+			dataType : 'json',
+			success: function(response) {
+               if (response.data.error) {
+
+               } else {
+                showData(response.data.cargo_owners);
+				showPagination(response.data.pages);
+               }
+
+           }
+		});
+*/
+}
+
+function showPagination(pages) { 
+    
+	var html = '';
+	
+    html += '<div class="';
+	if(page !== 1) { html += 'table-pagination__left'; }
+	html += '"></div>';
+	
+    html += '<div class="table-pagination__pages">';
+
+	let i = 0;
+
+	do {
+            
+			i = i + 1;
+			html += '<span data="'+ i + '" class="';
+			if(i == page) {
+             html += 'active';
+			}
+			html += '">'+ i + '</span>';
+
+    } while (i < pages);
+	
+	html += '</div>';
+
+	
+    html += '<div class="';
+	if(page !== pages && pages !== 1) {  html += 'table-pagination__right'; }
+	html += '"></div>';
+	
+    
+
+    $('.table-pagination').html(html);
+	$('.table-pagination__pages span').on('click', function() {
+
+        page = parseInt($(this).attr('data'));
+        getData();
+
+    });
+}
+
+function showData(data) {
+
+    var html = '';
+
+    $(data).each(function(i, owner) {
+
+        html += '<tr>';
+        html += '<td>';
+        html += '<a href="/admin/owner_' + owner.owner_id + '">' + owner.owner_id + '</a>';
+        html += '</td>';
+        html += '<td>' + owner.registration_date + '</td>';
+        html += '<td>' + owner.last_visit_date + '</td>';
+        html += '<td>' + owner.email + '</td>';
+        html += '<td>' + owner.phone + '</td>';
+        html += '<td>' + owner.verification_request_date + '</td>';
+        html += '<td>' + owner.rejection_reason + '</td>';
+        html += '</tr>';
+
+    });
+
+    $('tbody').html(html);
+
+}
+    </script>
+{% include footer  %}

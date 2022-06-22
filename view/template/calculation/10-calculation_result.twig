@@ -1,0 +1,162 @@
+{% include header  %}
+
+            <div class="content-column no-columns container">
+
+                <div class="content-top"></div>
+
+                <div class="central-column">
+                 
+				 
+
+                    <div class="back">
+                        <p>Назад</p>
+                        <div class="back__balance balance-card">
+                            <div><span>225 KZN</span>
+                                <p>текущий баланс</p>
+                            </div>
+                            <div class="balance-card__plus"></div>
+                        </div>
+                    </div>
+
+				 
+
+                    <div class="calculation-result_wrapper small-box">
+                        <div class="main-head">
+                            <div class="burger-main"></div>
+                            <h1 class="title">Результат расчёта</h1>
+                        </div>
+
+                        <div class="calculation-result">
+                            <p class="subtitle-text"><span>Автор:</span>{{ calculation.email }} </p>
+                            <div class="calculation-result__parameters">
+                                <div class="calculation-result__route">
+                                    <p>Маршрут:</p>
+                                    <h3 class="subtitle">{{ calculation.loading_station_name }} — {{ calculation.unloading_station_name }}</h3>
+                                    <div class="calculation-result__route-wrapper">
+                                        <div>
+                                            <p>{{ calculation.loading_station_country }}</p>
+                                            <p>{{ calculation.loading_station_railway }}</p>
+                                            <p>{{ calculation.loading_station_department }}</p>
+                                        </div>
+                                        <div>
+                                            <p>{{ calculation.unloading_station_country }}</p>
+                                            <p>{{ calculation.unloading_station_railway }}</p>
+                                            <p>{{ calculation.unloading_station_department }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="calculation-result__cargo">
+                                    <p>Груз:</p>
+                                    <div class="calculation-result__cargo_data">
+                                        <p>ЕТСНГ:</p>
+                                        <p>{{ calculation.etsng_id }}  {% if calculation.etsng_name  %}({{ calculation.etsng_name }}){% endif %}</p>
+                                    </div>
+                                    <div class="calculation-result__cargo_data">
+                                        <p>ГНГ:</p>
+                                        <p>{{ calculation.gng_id }}  {% if calculation.gng_name  %}({{ calculation.gng_name }}){% endif %}</p>
+                                    </div>
+                                </div>
+                                <div class="calculation-result__wagon">
+                                    <p>Вагон:</p>
+                                    <div class="calculation-result__wagon_data">
+                                        <p>Вид подвижного состава:</p>
+                                        <p>{{ calculation.railway_carriage_type }}</p>
+                                    </div>
+                                    <div class="calculation-result__wagon_data">
+                                        <p>Вес груза в одном вагоне (т):</p>
+                                        <p>{{ calculation.weight }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                      	<div class="calculation-result__wrapper white-background">
+			<div class="calculation-result__head">
+				<div>
+					<p>Валюта расчёта:</p>
+					<div class="currency-select" id="currency-select">
+						<div data="KZT">KZT</div>
+						<div>
+						  {% for code, value in currencies %}
+							<div onClick="changeCurrency('{{ code }}');" data="{{ code }}">{{ code }}</div>
+						  {% endfor %} 
+						</div>
+						<input type="hidden" id="currencies" value="KZT">
+					</div>
+				</div>
+				<p>Стоимость
+					<br>
+					в валюте расчёта:</p>
+			</div>
+			<div class="calculation-result__tariff">
+				<div id="countries_names">
+					<p>
+						<span>Груженный тариф:</span>
+					</p>
+					{% for country, value in loaded_rate_countries %} 
+					 <p>{{ country }}</p>
+					{% endfor %}
+					 
+				</div>
+				<div id="countries_values">
+					<p>
+						<span >{{ loaded_rate }}</span>
+					</p>
+					{% for country, value in loaded_rate_countries %} 
+					 <p>{{ value }}</p>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="calculation-result__rate">
+				<p>
+					<span>Ставка
+						<br>
+						предоставления вагона:</span>
+				</p>
+				<p>
+					<span id="wagon_bid" >{{ wagon_bid }}</span>
+				</p>
+			</div>
+			<div class="calculation-result__total">
+				<p>Всего за 1 вагон (вкл. НДС):</p>
+				<p id="total">{{ total }}</p>
+			</div>
+		</div>
+
+                            <div>
+                                <div class="button-active" onClick="location='/calculation';">Создать новый расчет</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="content-bottom"></div>
+            </div>
+<script>
+{% autoescape false %}
+var data = {{ exchange }};
+{% endautoescape %}
+function changeCurrency (currency_code) {
+  $.each(data, function(code, item){ 
+      if(currency_code == code) {
+ 
+           $('#wagon_bid').text(item.wagon_bid);
+           $('#total').text(item.total);
+
+           $('#countries_names').html('<p><span>Груженный тариф:</span></p>');
+           $('#countries_values').html('<p> <span >' + item.loaded_rate + '</span> </p>');
+
+           $.each(item.countries, function(i, country){ 
+
+               $('#countries_names').append('<p>' + country.name + '</p>');
+               $('#countries_values').append('<p>' + country.value + '</p>');
+
+           });
+
+      }
+
+  });
+}
+</script>
+{% include footer  %}

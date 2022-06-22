@@ -1,0 +1,296 @@
+{% include header  %}
+<div class="content-column no-columns container">
+
+	<div class="content-top"></div>
+
+	<div class="central-column">
+		<div class="registration box">
+			<h1 class="title">Регистрация</h1>
+			<p class="registration__intro subtitle-text">Введите данные для регистрации на платформе</p>
+
+			<div class="registration-data__container">
+
+				<div class="registration-data__wrapper white-background">
+
+					<div class="registration__input">
+						<div class="tel-input">
+							<div class="tel-input input">
+								<div class="placeholder-absolut">Номер телефона</div>
+								<input id="registration__tel" class="registration__tel" type="text" data="" readonly >
+							</div>
+
+							<div class="country-tel__wrapper">
+								<div class="close"></div>
+								<p class="country-tel__text">Выберите код региона</p>
+								<div class="input">
+									<input class="country-search" type="text"  placeholder="Поиск">
+								</div>
+								<div class="country-tel">
+
+									{% for country_phone in countries_phones %}
+										<div class="country-tel__item" id="country_{{ country_phone.country_id }}" data="{{ country_phone.mask }}">
+											<div class="country-tel__flag"></div>
+											<p class="country-tel__name">{{ country_phone.name }}</p>
+											<p class="country-tel__code">{{ country_phone.prefix }}</p>
+										</div>
+									{% endfor %}
+									
+								</div>
+							</div>
+
+						</div>
+						<div class="registration__message registration__message_tel">
+							<p>Смс-сообщение, подтверждающее регистрацию, будет отправлено на указанный
+																                                            номер
+																                                            телефона.</p>
+						</div>
+						<div class="input absolut"><input id="registration__mail" type="text"  readonly placeholder="Адрес электронной почты" data="Адрес электронной почты">
+						</div>
+
+						<div class="my-select absolut-select" id="country-sorting">
+							<div>Страна резидентства</div>
+							<div>
+								<div data="0">Страна резидентства</div>
+
+								{% for country in countries %}
+									<div data="{{ country.country_id }}">{{ country.name }}</div>
+								{% endfor %}
+
+							</div>
+							<input id="country_select" type="hidden" value="">
+						</div>
+						<div class="input absolut"><input id="password_1" type="password" placeholder="Пароль" data="Пароль"><a href="#" class="password-control"></a>
+						</div>
+						<div class="input absolut"><input id="password_2" type="password" placeholder="Повторите пароль" data="Повторите пароль"><a href="#" class="password-control"></a>
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="proceed__button">
+					<div class="button-notactive" id="send_register_form">Зарегистрироваться</div>
+				</div>
+
+			</div>
+
+			<p class="registration__intro subtitle-text">Регистрируясь на платформе, вы соглашаетесь с
+				<a target="_blanc" href="{{ platform_rules }}">Правилами
+										                                Платформы</a>
+				и
+				<a target="_blanc" href="{{ privacy_policy }}">Политикой Конфиденциальности.</a>
+			</p>
+			<div class="registration__login">
+				<p>Уже зарегистрированы?</p>
+				<div class="button-link">
+					<a href="/login">Войти</a>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div class="content-bottom"></div>
+</div>
+<style>
+{% for country_phone in countries_phones %}
+#country_{{ country_phone.country_id }} .country-tel__flag {
+    background: #FFFFFF00 url({{ country_phone.icon }}) center center no-repeat;
+}
+{% endfor %}
+</style>
+<script>
+var sendRegisterForm = false;
+$(document).ready(function () {
+	
+    //-----------------59-registration_1step.html-----------------//
+
+    //country telephone-code select 
+    $('.registration__tel').on('click', function () {
+		if ($(this).attr('data') == '') {
+           var html = '<div class="shadow"></div>';
+           $('.wrapper').prepend(html);
+           $('.country-tel__wrapper').css('display', 'block');
+		}
+    });
+
+    $('.country-tel__wrapper .close').on('click', function () {
+        $('.country-tel__wrapper').css('display', 'none');
+        $('.shadow').remove();
+    });
+
+    //inpust mask for telephone input
+    $('.country-tel__item').on('click', function () {
+        $('.registration__tel').attr('data', 1).removeAttr('readonly' ).inputmask( $(this).attr('data'));
+        $('.country-tel__wrapper').css('display', 'none');
+        $('.shadow').remove();
+        $('.registration__tel').focus();
+    });
+
+/*
+    //show/hide password
+    $('.password-control').on('mousedown', function () {
+        return false;
+    });
+
+    $('.password-control').on('click', function (event) {
+        if ($($(this).prev('input')).attr('type') == 'password') {
+            $(this).addClass('view');
+            $($(this).prev('input')).attr('type', 'text');
+        } else {
+            $(this).removeClass('view');
+            $($(this).prev('input')).attr('type', 'password');
+        }
+        return false;
+    });
+*/
+
+$('.absolut input').focusout(function(){
+    
+    var send = true;
+
+    $('.central-column input').each( function(i) {
+    
+     var data =  $(this).val(); 
+  
+     if( data.length > 0 ) {
+   
+     } else {
+       
+        send = false;
+     }
+    });
+
+    if(send) {
+
+          $('#send_register_form').removeClass('button-notactive').addClass('button-active');
+
+    } else {
+         $('#send_register_form').removeClass('button-active').addClass('button-notactive');
+
+    }
+
+   
+  });
+
+    //  clear placeholder and move it on top of input
+    $('.absolut input').focusin(function () {
+
+        $('.absolut .placeholder-absolut').remove();
+
+		if( $(this).attr('id') == 'registration__mail') {
+           $(this).removeAttr('readonly');
+		}
+
+        var placeholderName = $(this).prop('placeholder');
+        $(this).attr("placeholder", ""); 
+        $($(this).next('.password-control')).css('display', 'inline-block');
+        var html = '<div class="placeholder-absolut">' + placeholderName + '</div>';
+        $(this).before(html);
+
+        $('.absolut input').each(function () {
+            var placeholderNameData = $(this).attr('data');
+            if (placeholderName != placeholderNameData) {
+                $(this).attr("placeholder", placeholderNameData);
+                var inputValue = $(this).val();
+                if (inputValue.length) {
+                    $(this).before('<div class="placeholder-absolut">' + placeholderNameData + '</div>');
+                }
+            }
+        });
+
+        // add password visible eye
+
+        $(this).focusout(function () {
+            if ($(this).val() != '') {
+                $($(this).next('.password-control')).css('display', 'none');
+            } else {
+                $(this).attr("placeholder", placeholderName);
+                $($(this).next('.password-control')).css('display', 'none');
+                $($(this).prev("div")).remove();
+            };
+
+            var inputValue = $(this).val();
+            if (inputValue.length) {
+                $($(this).next('.password-control')).css('display', 'inline-block');
+            }
+        });
+
+    });
+});
+    //-------------------------------------//
+
+
+	  $('.country-search').autocomplete({
+		  'source': function(request, response) { 
+			  $.post(
+                 "/autocomplete",
+                   {
+                    type: 'countries_phones',
+                    filter:  $('.country-search').val(),
+       
+                     },
+                  function(response){
+                     if(response.data.error) {
+                       alert(response.data.message); 
+					   return;
+                     }
+					 var html = '';
+					 $.map(response.data.data, function(item) {
+						 html += '<div class="country-tel__item" id="country_' + item.country_id + '" data="' + item.mask + '">';
+						 html += '<div class="country-tel__flag"></div>';
+						 html += '<p class="country-tel__name">' + item.name + '</p>';
+						 html += '<p class="country-tel__code">' + item.prefix + '</p>';
+						 html += '</div>';
+					 });
+					 $(".country-tel").html(html);
+					 $('.country-tel__item').on('click', function () {
+                        $('.registration__tel').attr('data', 1).removeAttr('readonly' ).inputmask( $(this).attr('data'));
+                        $('.country-tel__wrapper').css('display', 'none');
+                        $('.shadow').remove();
+                        $('.registration__tel').focus();
+                     });
+                  }
+              );
+			  
+		  },
+		  'select': function(item) {
+			  
+		  }
+	  });
+
+
+$('#send_register_form').on('click', function(){
+    $('.input_error').remove();
+    $('input').removeClass('error');
+
+    if(!sendRegisterForm) {
+
+     sendRegisterForm = true;
+
+     $.post(
+       "/register",
+       {
+         step: 1,
+         phone: $('#registration__tel').val(),
+         email: $('#registration__mail').val(),
+         country_id: $('#country_select').val(),
+         password_1: $('#password_1').val(),
+         password_2: $('#password_2').val(),
+       },
+       function(response){
+           sendRegisterForm = false;
+           if(response.data.error) {
+              $(response.data.message[0]).after('<div class="input_error">' + response.data.message[1] + '</div>').addClass('error');
+           }
+           if(response.data.redirect) {
+             location = response.data.redirect;
+           } 
+       }
+     );
+
+   }
+});
+</script>
+{% include footer  %}

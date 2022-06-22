@@ -1,0 +1,75 @@
+{% include header  %}
+<div class="currencies-rates container">
+
+	<div class="back">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="main-head">
+			<div class="burger-main"></div>
+			<h1 class="title-red">Валюты и курсы</h1>
+		</div>
+
+		<div class="user-tabs">
+			<div class="user-tabs__tab " onClick="location='/admin/coefficients';">
+				<p>ЖД-тариф</p>
+			</div>
+			<div class="user-tabs__tab active">
+				<p>Курс валют</p>
+			</div>
+		</div>
+
+		<div class="currencies-rates__wrapper">
+			<div>
+				<div class="rates__items">
+ {% for key, value in currencies  %} 
+					<div class="rates__item">
+						<div class="rates__currency">{{ key }}</div>
+						<div class="rates__value">{{ value }}</div>
+					</div>
+ {% endfor %}					
+					
+				</div>
+			</div>
+			<div>
+				<div class="rate-percent__wrapper blue-wrapper">
+					<h6>Коэффициент на курс валют</h6>
+					<div class="input">
+						<div class="placeholder-absolut">Добавленный процент на курс</div>
+						<input type="text" id="percent" value="{{ percent }}">
+					</div>
+					<div class="button-active" onClick="savePercent();">
+						<p>Сохранить</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+<script>
+
+function savePercent() {
+    $.post(
+       "/currencies",
+       {
+         percent: $('#percent').val(),
+       },
+       function(response){
+          if(response.data.error) {
+              $(response.data.message[0]).after('<div class="input_error">' + response.data.message[1] + '</div>').addClass('error');
+           }
+           if(response.data.redirect) {
+             location = response.data.redirect;
+           } 
+       }
+    );
+}
+
+</script>
+
+
+{% include footer  %}

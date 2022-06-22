@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>YTM</title>
+		<link rel="shortcut icon" href="/view/assets/img/icon.png">
+		<script src="/view/assets/js/jquery-2.1.1.min.js"></script>
+		<!--scripts for telephone input plugin-->
+		<script src="/view/assets/js/dist/jquery.inputmask.js"></script>
+		<!--//-->
+		<script src="/view/assets/js/script.js?v={{ time }}"></script>
+		<link href="/view/assets/fonts/font_header-footer.css?v={{ time }}" type="text/css" rel="stylesheet"/>
+
+		{% for font in fonts %}
+			<link href="{{ font }}" type="text/css" rel="stylesheet"/>
+		{% endfor %}
+		{% for j  in js %}
+			<script src="{{ j }}"></script>
+		{% endfor %}
+		{% for c in css %}
+			<link href="{{ c }}" type="text/css" rel="stylesheet"/>
+		{% endfor %}
+
+		<link href="/view/assets/css/style.css?v={{ time }}" type="text/css" rel="stylesheet"/>
+		<style>
+		 .input_error {
+font-family: 'Raleway';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+font-feature-settings: 'pnum' on, 'lnum' on;
+color: #FF4769; 
+padding-top:5px;
+		 }
+		</style>
+	</head>
+
+	<body>
+		<div class="wrapper">
+			<header class="header">
+				<div class="header-wrapper container">
+					<div class="burger">
+						<span></span>
+					</div>
+					<div class="header__logo">
+						<a href="/"></a>
+					</div>
+					<div class="header__menu">
+						<ul>
+							<li><a href="#">О компании</a></li>
+							<li><a href="#">Помощь</a></li>
+							<li><a href="#">Контакты</a></li>
+						</ul>
+					</div>
+				</div>
+			</header>
+
+			<div class="content">

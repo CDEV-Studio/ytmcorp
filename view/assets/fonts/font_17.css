@@ -1,0 +1,155 @@
+@font-face {
+    font-family: 'Exo 2';
+    src: url('../fonts/file/Exo2-Bold.eot');
+    src: url('../fonts/file/Exo2-Bold.eot') format('embedded-opentype'),
+        url('../fonts/file/Exo2-Bold.woff2') format('woff2'),
+        url('../fonts/file/Exo2-Bold.woff') format('woff'),
+        url('../fonts/file/Exo2-Bold.ttf') format('truetype'),
+        url('../fonts/file/Exo2-Bold.svg') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/file/Raleway-SemiBold.eot');
+    src: url('../fonts/file/Raleway-SemiBold.eot') format('embedded-opentype'),
+        url('../fonts/file/Raleway-SemiBold.woff2') format('woff2'),
+        url('../fonts/file/Raleway-SemiBold.woff') format('woff'),
+        url('../fonts/file/Raleway-SemiBold.ttf') format('truetype'),
+        url('../fonts/file/Raleway-SemiBold.svg') format('svg');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/file/Raleway-Regular.eot');
+    src: url('../fonts/file/Raleway-Regular.eot') format('embedded-opentype'),
+        url('../fonts/file/Raleway-Regular.woff2') format('woff2'),
+        url('../fonts/file/Raleway-Regular.woff') format('woff'),
+        url('../fonts/file/Raleway-Regular.ttf') format('truetype'),
+        url('../fonts/file/Raleway-Regular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/file/Raleway-Light.eot');
+    src: url('../fonts/file/Raleway-Light.eot') format('embedded-opentype'),
+        url('../fonts/file/Raleway-Light.woff2') format('woff2'),
+        url('../fonts/file/Raleway-Light.woff') format('woff'),
+        url('../fonts/file/Raleway-Light.ttf') format('truetype'),
+        url('../fonts/file/Raleway-Light.svg') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fonts/file/Montserrat-Medium.eot');
+    src: url('../fonts/file/Montserrat-Medium.eot') format('embedded-opentype'),
+        url('../fonts/file/Montserrat-Medium.woff2') format('woff2'),
+        url('../fonts/file/Montserrat-Medium.woff') format('woff'),
+        url('../fonts/file/Montserrat-Medium.ttf') format('truetype'),
+        url('../fonts/file/Montserrat-Medium.svg') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/file/Raleway-Medium.eot');
+    src: url('../fonts/file/Raleway-Medium.eot') format('embedded-opentype'),
+        url('../fonts/file/Raleway-Medium.woff2') format('woff2'),
+        url('../fonts/file/Raleway-Medium.woff') format('woff'),
+        url('../fonts/file/Raleway-Medium.ttf') format('truetype'),
+        url('../fonts/file/Raleway-Medium.svg') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/file/Raleway-Bold.eot');
+    src: url('../fonts/file/Raleway-Bold.eot') format('embedded-opentype'),
+        url('../fonts/file/Raleway-Bold.woff2') format('woff2'),
+        url('../fonts/file/Raleway-Bold.woff') format('woff'),
+        url('../fonts/file/Raleway-Bold.ttf') format('truetype'),
+        url('../fonts/file/Raleway-Bold.svg') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat Alternates';
+    src: url('../fonts/file/MontserratAlternates-Bold.eot');
+    src: url('../fonts/file/MontserratAlternates-Bold.eot') format('embedded-opentype'),
+        url('../fonts/file/MontserratAlternates-Bold.woff2') format('woff2'),
+        url('../fonts/file/MontserratAlternates-Bold.woff') format('woff'),
+        url('../fonts/file/MontserratAlternates-Bold.ttf') format('truetype'),
+        url('../fonts/file/MontserratAlternates-Bold.svg') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat Alternates';
+    src: url('../fonts/file/MontserratAlternates-SemiBold.eot');
+    src: url('../fonts/file/MontserratAlternates-SemiBold.eot') format('embedded-opentype'),
+        url('../fonts/file/MontserratAlternates-SemiBold.woff2') format('woff2'),
+        url('../fonts/file/MontserratAlternates-SemiBold.woff') format('woff'),
+        url('../fonts/file/MontserratAlternates-SemiBold.ttf') format('truetype'),
+        url('../fonts/file/MontserratAlternates-SemiBold.svg') format('svg');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat Alternates';
+    src: url('../fonts/file/MontserratAlternates-Regular.eot');
+    src: url('../fonts/file/MontserratAlternates-Regular.eot') format('embedded-opentype'),
+        url('../fonts/file/MontserratAlternates-Regular.woff2') format('woff2'),
+        url('../fonts/file/MontserratAlternates-Regular.woff') format('woff'),
+        url('../fonts/file/MontserratAlternates-Regular.ttf') format('truetype'),
+        url('../fonts/file/MontserratAlternates-Regular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/file/Raleway-ExtraBold.eot');
+    src: url('../fonts/file/Raleway-ExtraBold.eot') format('embedded-opentype'),
+        url('../fonts/file/Raleway-ExtraBold.woff2') format('woff2'),
+        url('../fonts/file/Raleway-ExtraBold.woff') format('woff'),
+        url('../fonts/file/Raleway-ExtraBold.ttf') format('truetype'),
+        url('../fonts/file/Raleway-ExtraBold.svg') format('svg');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/file/Raleway-LightItalic.eot');
+    src: url('../fonts/file/Raleway-LightItalic.eot') format('embedded-opentype'),
+        url('../fonts/file/Raleway-LightItalic.woff2') format('woff2'),
+        url('../fonts/file/Raleway-LightItalic.woff') format('woff'),
+        url('../fonts/file/Raleway-LightItalic.ttf') format('truetype'),
+        url('../fonts/file/Raleway-LightItalic.svg') format('svg');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}

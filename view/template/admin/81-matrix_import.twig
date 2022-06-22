@@ -1,0 +1,116 @@
+{% include header  %}
+
+<div class="matrix-input container">
+
+	<div class="back">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="main-head">
+			<div class="burger-main"></div>
+			<h1 class="title-red">Импорт матриц</h1>
+		</div>
+
+	 
+			<div class="matrix-input-wrapper">
+				<div class="input-name">Тип матрицы</div>
+				<div class="my-select" id="matrix-type">
+					<div data="0">Выберите</div>
+					<div>
+					  {% for car in railway_carriage %} 
+				       <div data="{{ car.railway_carriage_id }}">{{ car.railway_carriage_type }}</div>
+				      {% endfor %}
+					</div>
+					<input type="hidden" id="railway_carriage_id" value="0">
+				</div>
+			</div>
+
+		<div class="blue-wrapper">
+                            <div class="matrix-input-load">
+                                <input type="file" id="matrix-input" class="file-input">
+                                <label for="matrix-input"> <span>Загрузите xlsx-файл, перетащив его сюда,</span>
+                                    <span>или</span>
+                                    <span>выберите файл</span></label>
+                            </div>
+                            <div class="matrix-input-send">
+                                <p>Файл успешно загружен</p>
+
+                                <div><input type="checkbox" class="checkbox-styled" name="clean-table"
+                                        id="clean-table"><label for="clean-table">Очистить таблицу при импорте</label>
+                                </div>
+                                <div>
+                                    <div class="button-active">
+                                        <p>Отправить</p>
+                                    </div>
+                                    <div>
+                                        <input type="file" id="matrix-input" class="file-input">
+                                        <label for="matrix-input">Загрузить другой файл</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="matrix-input-success">
+                                <input type="file" id="matrix-input" class="file-input">
+                                <label for="matrix-input"> <span>Матрица успешно экспортирована.</span>
+                                    <span>Для импорта новой матрицы: <br>1. выберите тип матрицы выше <br>2. загрузите
+                                        xlsx-файл, перетащив его сюда</span>
+                                    <span>или</span>
+                                    <span>выберите файл</span></label>
+                            </div>
+                        </div>
+	 
+
+	</div>
+
+</div>
+<script>
+$(document).ready(function() {
+
+    $('.matrix-input-load>input, .matrix-input-success>input').on('change', function() {
+        $('.matrix-input-load').css('display', 'none');
+        $('.matrix-input-success').css('display', 'none');
+        $('.matrix-input-send').css('display', 'block');
+    });
+
+    $('.matrix-input-send .button-active').on('click', function() { 
+        $('.matrix-input-send').css('display', 'none');
+
+
+        if ($("#railway_carriage_id").val() == 0) {
+            alert('Укажите тип вагона!');
+			$('.matrix-input-send').css('display', 'block');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('file', $("#matrix-input")[0].files[0]);
+        formData.append('type', "import");
+        formData.append('railway_carriage_id', $("#railway_carriage_id").val());
+        formData.append('clean', $("#clean-table").prop('checked'));
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/import",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+
+            success: function(response) {
+                if (response.data.error) {
+                    alert(response.data.message);
+                    $('.matrix-input-send').css('display', 'block');
+                } else {
+
+                    $('.matrix-input-success').css('display', 'block');
+                }
+
+            }
+        });
+
+    });
+
+});
+</script>
+
+{% include footer  %}

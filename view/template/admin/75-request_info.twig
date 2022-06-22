@@ -1,0 +1,356 @@
+{% include header  %}
+<style>
+.calc-server__item-wrapper__white>div + div {
+  
+   border-top:1px solid #D1DBE1;
+   padding-top:30px;
+}
+.calc-server__item-wrapper__white>div {
+	margin-bottom:30px;
+} 
+.calc-server__item-wrapper__white>div:last-child {
+	margin-bottom:0px;
+}
+.calc-server__item-wrapper__white {
+	border-bottom: 0px solid #D1DBE1;
+}
+
+</style>
+<div class="request-information container">
+
+	<div class="back">
+		<p>Назад</p>
+	</div>
+
+	<div class="small-box">
+		<div class="main-head container">
+			<div class="burger-main"></div>
+			<h1 class="title-red">Информация о запросе</h1>
+		</div>
+
+		<div class="request-user-data white-background">
+			<h2 class="subtitle-blue">Данные, введённые пользователем</h2>
+			<div class="request-user-data__items">
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Станция погрузки</p>
+					<div class="input"><input type="text" value="[{{ calculation.loading_station_id }}] {{ calculation.loading_station_name }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Станция выгрузки</p>
+					<div class="input"><input type="text" value="[{{ calculation.unloading_station_id }}] {{ calculation.unloading_station_name }}" disabled>
+					</div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Груз</p>
+					<div class="input"><input type="text" value="[{{ calculation.etsng_id }}] {{ calculation.etsng_name }} / [{{ calculation.gng_id }}] {{ calculation.gng_name }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Страна погрузки</p>
+					<div class="input"><input type="text" value="{{ calculation.loading_station_country }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Страна выгрузки</p>
+					<div class="input"><input type="text" value="{{ calculation.unloading_station_country }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Тип вагона</p>
+					<div class="input"><input type="text" value="{{ calculation.railway_carriage_type }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Отделение погрузки</p>
+					<div class="input"><input type="text" value="{{ calculation.loading_station_department }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Отделение выгрузки</p>
+					<div class="input"><input type="text" value="{{ calculation.unloading_station_department }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Вес груза в одном вагоне</p>
+					<div class="input"><input type="text" value="{{ calculation.weight }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Дорога погрузки</p>
+					<div class="input"><input type="text" value="{{ calculation.loading_station_railway }}Казахстанская ж. д." disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Дорога выгрузки</p>
+					<div class="input"><input type="text" value="{{ calculation.unloading_station_railway}}Свердловская ж. д." disabled></div>
+				</div>
+				<div class="request-user-data__item"></div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Страна погрузки (API)</p>
+					<div class="input"><input type="text" value="{{ calculation.FSLandName }}" disabled></div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Страна выгрузки (API)</p>
+					<div class="input"><input type="text" value="{{ calculation.TSLandName }}" disabled></div>
+				</div>
+				<div class="request-user-data__item"></div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Ф.И.О.</p>
+					<div class="input"><input type="text" value="{{ calculation.name}}" disabled>
+					</div>
+				</div>
+				<div class="request-user-data__item">
+					<p class="request-info__field-name">Телефон</p>
+					<div class="input"><input type="text" value="{{ calculation.phone}}" disabled></div>
+				</div>
+				<div class="request-user-data__item"></div>
+			</div>
+		</div>
+
+		<div class="calc-matrix-export white-background">
+			<h2 class="subtitle-blue">Расчёт по матрице «Экспорт» (в валюте)</h2>
+			<div class="calc-matrix-export__items">
+				<div class="calc-matrix-export__item">
+					<p class="request-info__field-name">Суточная ставка пользования от поставщика</p>
+					<div class="calc-matrix-export__wrapper">
+						<div class="input"><input type="text" value="{{ day_bid_from_the_supplier_RUR }}" disabled>
+							<div class="currency-blue">RUB</div>
+						</div>
+						<div class="input"><input type="text" value="{{ day_bid_from_the_supplier_KZT }}" disabled>
+							<div class="currency-blue">KZT</div>
+						</div>
+					</div>
+				</div>
+				<div class="calc-matrix-export__item">
+					<p class="request-info__field-name">Курс</p>
+					<div class="input center"><input type="text" value="{{ RUB }}" disabled></div>
+				</div>
+				<div class="calc-matrix-export__item">
+					<p class="request-info__field-name">Суточная ставка пользования вкл.маржу</p>
+					<div class="calc-matrix-export__wrapper">
+						<div class="input"><input type="text" value="{{ day_bid_marge_RUR }}" disabled>
+							<div class="currency-blue">RUB</div>
+						</div>
+						<div class="input"><input type="text" value="{{ day_bid_marge_KZT }}" disabled>
+							<div class="currency-blue">KZT</div>
+						</div>
+					</div>
+				</div>
+				<div class="calc-matrix-export__item">
+					<p class="request-info__field-name">Ставка пользования вкл.маржу</p>
+					<div class="calc-matrix-export__wrapper">
+						<div class="input"><input type="text" value="{{ bid_marge_RUR }}" disabled>
+							<div class="currency-blue">RUB</div>
+						</div>
+						<div class="input"><input type="text" value="{{ bid_marge_KZT }}" disabled>
+							<div class="currency-blue">KZT</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="calc-server white-background">
+			<h2 class="subtitle-blue">Расчёт от сервера API</h2>
+			<div class="calc-server__item-wrapper1">
+				<div class="calc-server__item">
+					<p class="request-info__field-name">Period of delivery</p>
+					<div class="input center"><input type="text" value="{{ calculation.PeriodOfDelivery}}" disabled></div>
+				</div>
+				<div class="calc-server__item">
+					<p class="request-info__field-name">Distance</p>
+					<div class="input center"><input type="text" value="{{ calculation.Distance }}" disabled></div>
+				</div>
+				<div class="calc-server__item">
+					<p class="request-info__field-name">Стран в маршруте</p>
+					<div class="input center"><input type="text" value="{{ countries|length }}" disabled></div>
+				</div>
+			</div>
+			<div class="calc-server__item-wrapper__white">
+				{% for country in countries %}
+<div>
+					<div class="calc-server__item-wrapper2">
+						<h3 class="subtitle-blue">Данные для страны «{{ country.Name }}»</h3>
+						<div class="calc-server__item-subwrapper">
+							<div class="calc-server__item">
+								<p class="request-info__field-name">Distance</p>
+								<div class="input"><input type="text" value="{{ country.Distance }}" disabled></div>
+							</div>
+							<div class="calc-server__item">
+								<p class="request-info__field-name">NDS</p>
+								<div class="input"><input type="text" value="{{ country.NDS }}" disabled></div>
+							</div>
+							<div class="calc-server__item">
+								<p class="request-info__field-name">TotalPriceWoNDS</p>
+								<div class="input"><input type="text" value="{{ country.TotalPriceWoNDS }}" disabled></div>
+							</div>
+							<div class="calc-server__item">
+								<p class="request-info__field-name">TotalPrice</p>
+								<div class="input"><input type="text" value="{{ country.TotalPrice }}" disabled></div>
+							</div>
+							<div class="calc-server__item">
+								<p class="request-info__field-name">AddDues</p>
+								<div class="input"><input type="text" value="{{ country.AddDues }}" disabled></div>
+							</div>
+							<div class="calc-server__item">
+								<p class="request-info__field-name">ABBR</p>
+								<div class="input"><input type="text" value="{{ country.ABBR }}" disabled></div>
+							</div>
+						</div>
+					</div>
+</div>		
+		     	{% endfor %}
+            </div>
+
+		</div>
+
+
+		<div class="summ-info-table white-background">
+
+			<table class="summ-info__table">
+
+				<tbody>
+					<tr>
+						<th>Направление</th>
+						<td colspan="7">{{ direction }}</td>
+					</tr>
+					<tr>
+						<th>Страна</th>
+						{% for country in countries %}
+						 <td>{{ country.Name }}</td>
+						{% endfor %}
+						 
+					</tr>
+					<tr>
+						<th>Валюта</th>
+						{% for country in countries %}
+						 <td>{{ country.ABBR }}</td>
+						{% endfor %}
+						
+					</tr>
+					<tr>
+						<th>Сумма тарифа без НДС
+							<br>
+							из рейл тарифа за один вагон</th>
+						{% for country in countries %}
+						 <td>{{ country.TotalPriceWoNDS }}</td>
+						{% endfor %}
+						
+					</tr>
+					<tr>
+						<th>% маржи по территориям</th>
+						{% for country in countries %}  
+						<td>{{ country.tariff_for_countries }} </td>
+						{% endfor %}
+						 
+					</tr>
+					<tr>
+						<th>Сумма маржи по территориям без НДС</th>
+						{% for country in countries %}
+						<td>{{ country.sum }} </td>
+						{% endfor %}
+					</tr>
+					<tr>
+						<th>Сумма тарифа + маржа
+							<br>
+							для клиента без НДС</th>
+						{% for country in countries %}
+						<td>{{ country.sum_2 }} </td>
+						{% endfor %}
+					</tr>
+					<tr>
+						<th>Курс</th>
+						{% for country in countries %}
+						<td>{{ country.exchange }}</td>
+						{% endfor %}
+					</tr>
+					<tr>
+						<th>Сумма тарифа для клиента
+							<br>
+							без НДС в KZT</th>
+						{% for country in countries %}
+						<td> {{ country.sum_3 }}</td>
+						{% endfor %}
+					</tr>
+				</tbody>
+
+			</table>
+
+		</div>
+
+
+	    	<div class="calculation-result__wrapper white-background">
+			<div class="calculation-result__head">
+				<div>
+					<p>Валюта расчёта:</p>
+					<div class="currency-select" id="currency-select">
+						<div data="KZT">KZT</div>
+						<div>
+						  {% for code, value in currencies %}
+							<div onClick="changeCurrency('{{ code }}');" data="{{ code }}">{{ code }}</div>
+						  {% endfor %} 
+						</div>
+						<input type="hidden" id="currencies" value="KZT">
+					</div>
+				</div>
+				<p>Стоимость
+					<br>
+					в валюте расчёта:</p>
+			</div>
+			<div class="calculation-result__tariff">
+				<div id="countries_names">
+					<p>
+						<span>Груженный тариф:</span>
+					</p>
+					{% for country, value in loaded_rate_countries %} 
+					 <p>{{ country }}</p>
+					{% endfor %}
+					 
+				</div>
+				<div id="countries_values">
+					<p>
+						<span >{{ loaded_rate }}</span>
+					</p>
+					{% for country, value in loaded_rate_countries %} 
+					 <p>{{ value }}</p>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="calculation-result__rate">
+				<p>
+					<span>Ставка
+						<br>
+						предоставления вагона:</span>
+				</p>
+				<p>
+					<span id="wagon_bid" >{{ wagon_bid }}</span>
+				</p>
+			</div>
+			<div class="calculation-result__total">
+				<p>Всего за 1 вагон (вкл. НДС):</p>
+				<p id="total">{{ total }}</p>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+<script>
+{% autoescape false %}
+var data = {{ exchange }};
+{% endautoescape %}
+function changeCurrency (currency_code) {
+  $.each(data, function(code, item){ 
+      if(currency_code == code) {
+ 
+           $('#wagon_bid').text(item.wagon_bid);
+           $('#total').text(item.total);
+
+           $('#countries_names').html('<p><span>Груженный тариф:</span></p>');
+           $('#countries_values').html('<p> <span >' + item.loaded_rate + '</span> </p>');
+
+           $.each(item.countries, function(i, country){ 
+
+               $('#countries_names').append('<p>' + country.name + '</p>');
+               $('#countries_values').append('<p>' + country.value + '</p>');
+
+           });
+
+      }
+
+  });
+}
+</script>
+{% include footer  %}
